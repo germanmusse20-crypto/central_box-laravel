@@ -3,7 +3,7 @@
 @section('titulo', 'Registrar Usuario - Central Box')
 
 @section('contenido')
-<div class="max-w-2xl space-y-6">
+<div class="w-full space-y-6">
 
     <!-- CABECERA -->
     <div class="flex items-center justify-between">
@@ -17,7 +17,7 @@
     </div>
 
     <!-- FORMULARIO -->
-    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm max-w-2xl mx-auto">
+    <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm w-full">
         <form action="{{ route('admin.usuarios.store') }}" method="POST" class="space-y-6">
             @csrf
 
