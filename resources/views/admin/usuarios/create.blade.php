@@ -8,10 +8,11 @@
     <!-- CABECERA -->
     <div class="flex items-center justify-between">
         <div class="text-left">
-            <h2 class="text-2xl font-black text-gray-900">Registrar Nuevo Usuario</h2>
-            <p class="text-xs text-gray-500 w-full">Crea credenciales para administradores, vendedores o clientes de Central Box</p>
+            <h2 class="text-2xl font-bold text-gray-900">Registrar Nuevo Usuario</h2>
+            <p class="text-1xl text-gray-500 w-full">Crea las credenciales de acceso para tus clientes y vendedores de central_box</p>
         </div>
-        <a href="{{ route('admin.usuarios.index') }}" class="text-xs font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
+        <a href="{{ route('admin.usuarios.index') }}" class="text-white font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
+            <button type="submit" class="bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-6 rounded-xl transition shadow-md shadow-emerald-500/20">
             <i class="fa-solid fa-arrow-left"></i> Volver al listado
         </a>
     </div>
@@ -50,9 +51,9 @@
             <div>
                 <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Rol de Acceso *</label>
                 <select name="rol" required class="w-full rounded-xl border-gray-200 focus:border-[#00C897] focus:ring-[#00C897] text-sm font-semibold">
-                    <option value="cliente" {{ old('rol') == 'cliente' ? 'selected' : '' }}>Cliente (Comprador tienda)</option>
-                    <option value="vendedor" {{ old('rol') == 'vendedor' ? 'selected' : '' }}>Vendedor (Punto de Venta / POS)</option>
-                    <option value="admin" {{ old('rol') == 'admin' ? 'selected' : '' }}>Administrador (Control Total)</option>
+                    <option value="">Seleccione el rol de acceso</option>
+                    <option value="cliente" {{ old('rol') == 'cliente' ? 'selected' : '' }}>Cliente</option>
+                    <option value="vendedor" {{ old('rol') == 'vendedor' ? 'selected' : '' }}>Vendedor</option>
                 </select>
                 @error('rol') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>

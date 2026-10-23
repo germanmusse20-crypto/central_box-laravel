@@ -53,9 +53,10 @@ class UsuarioController extends Controller
             'email'    => 'required|string|email|max:255|unique:usuarios,email,' . $usuario->id,
             'telefono' => 'nullable|string|max:20',
             'rol'      => 'required|in:admin,vendedor,cliente',
+            'estado'   => 'required|in:active,inactive',
         ]);
 
-        $usuario->update($request->only('nombre', 'email', 'telefono', 'rol'));
+        $usuario->update($request->only('nombre', 'email', 'telefono', 'rol', 'estado'));
 
         if ($request->filled('password')) {
             $request->validate(['password' => 'min:8|confirmed']);
