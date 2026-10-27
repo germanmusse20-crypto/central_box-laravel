@@ -28,6 +28,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // 2. Usuarios
     Route::resource('usuarios', UsuarioController::class);
+    Route::get('usuarios/exportar-excel', [UsuarioController::class, 'exportarExcel'])->name('usuarios.exportar-excel');
     // 3. Proveedores
     Route::resource('proveedores', ProveedorController::class);
     // 4. Categorías

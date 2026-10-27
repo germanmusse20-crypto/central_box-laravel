@@ -6,12 +6,11 @@
         color: #555;
         border: 2px solid #00C897;
         border-radius: 8px;
-        padding: 5px 10px;
-        white-space: nowrap;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
+        padding: 2px 8px;
+        /* 🔑 ESTO es lo que permite la animación suave */
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+        /* Necesario para que transform funcione en links */
+        display: inline-block;
     }
     /* Clase para el link ACTIVO (Inicio) */
     .nav-link-activo {
@@ -20,12 +19,9 @@
         color: #00C897;
         border: 2px solid #00C897;
         border-radius: 8px;
-        padding: 5px 10px;
-        white-space: nowrap;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
+        padding: 2px 8px;
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+        display: inline-block;
     }
     /* 🎯 Efecto al pasar el mouse por encima */
     .nav-link:hover,
@@ -33,21 +29,20 @@
         transform: translateY(-4px);
         box-shadow: 0 6px 16px rgba(0, 200, 151, 0.25);
     }
-    /* 🛒 Ícono del Carrito en el Navbar */
+        /* 🛒 Ícono del Carrito en el Navbar */
     .nav-carrito {
         position: relative;
-        display: inline-flex;
+        display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 42px;
+        height: 42px;
         background: #f0fdf9;
         border: 2px solid #00C897;
         border-radius: 8px;
-        font-size: 18px;
+        font-size: 20px;
         cursor: pointer;
         text-decoration: none;
-        flex-shrink: 0;
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .nav-carrito:hover {
@@ -57,14 +52,14 @@
     /* 🔴 Contador flotante de productos (Badge numérico) */
     .badge-carrito {
         position: absolute;
-        top: -7px;
-        right: -7px;
+        top: -8px;
+        right: -8px;
         background: #ff4757;
         color: #ffffff;
         font-size: 11px;
         font-weight: 800;
-        min-width: 19px;
-        height: 19px;
+        min-width: 20px;
+        height: 20px;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -79,18 +74,38 @@
     }
 </style>
 
-<nav style="background: white; box-shadow: 0 1px 10px rgba(0,0,0,0.08);">
-    <div style="max-width: 1240px; margin: 0 auto; padding: 0 16px; 
-                display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 15px;">
-        
-        {{-- LOGO --}}
-        <a href="/" style="display:flex; align-items:center; gap: 8px; text-decoration:none; flex-shrink: 0;">
+<nav style="background: white; box-shadow: 0 1px 10px rgba(0,0,0,0.08); width: 100%;">
+    <div style="
+        max-width: 1280px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 32px;
+        height: 70px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 24px;
+        box-sizing: border-box;
+    ">
+
+        {{-- COLUMNA 1: LOGO (izquierda) --}}
+        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; white-space: nowrap;">
             <img src="{{ asset('images/Icono.png') }}" alt="Icono" style="width: 46px; height: 46px;">
-            <span style="font-weight: 700; color: #1a1a2e; font-size: 18px; white-space: nowrap;">Central <strong style="color: #00C897;">box</strong></span>
+            <span style="font-weight: 700; color: #1a1a2e; font-size: 18px;">
+                Central <strong style="color: #00C897;">box</strong>
+            </span>
         </a>
 
-        {{-- LINKS DE NAVEGACIÓN --}}
-        <ul style="display: flex; list-style: none; gap: 14px; margin: 0; padding: 0; align-items: center;">
+        {{-- COLUMNA 2: LINKS DE NAVEGACIÓN (centro) --}}
+        <ul style="
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        ">
             <li><a href="/" class="nav-link-activo">🏠 Inicio</a></li>
             <li><a href="#productos" class="nav-link">🛒 Productos</a></li>
             <li><a href="#categorias" class="nav-link">📋 Categorías</a></li>
@@ -98,28 +113,34 @@
             <li><a href="#nosotros" class="nav-link">👨‍💼 Nosotros</a></li>
         </ul>
 
-        {{-- BOTONES --}}
-        <div style="display: flex; gap: 10px; align-items: center; flex-shrink: 0;">
+        {{-- COLUMNA 3: BOTONES (derecha) --}}
+        <div style="display: flex; align-items: center; gap: 12px; white-space: nowrap;">
+
             @if (Route::has('login'))
-                <a href="{{ route('login') }}" 
-                   style="padding: 7px 16px; border: 2px solid #00C897; color: #00C897; 
-                          border-radius: 8px; text-decoration: none; font-weight: 600; white-space: nowrap;">
+                <a href="{{ route('login') }}"
+                   style="padding: 8px 18px; border: 2px solid #00C897; color: #00C897;
+                          border-radius: 8px; text-decoration: none; font-weight: 600;
+                          font-size: 14px; white-space: nowrap;">
                     → Iniciar sesión
                 </a>
             @endif
+
             @if (Route::has('register'))
-                <a href="{{ route('register') }}" 
-                   style="padding: 7px 16px; background: #00C897; color: white; 
-                          border-radius: 8px; text-decoration: none; font-weight: 600; white-space: nowrap;">
+                <a href="{{ route('register') }}"
+                   style="padding: 8px 18px; background: #00C897; color: white;
+                          border-radius: 8px; text-decoration: none; font-weight: 600;
+                          font-size: 14px; white-space: nowrap;">
                     👤 Regístrate
                 </a>
             @endif
 
-            {{-- 🛒 ÍCONO DEL CARRITO DE COMPRAS --}}
-            <button type="button" id="btn-carrito-nav" class="nav-carrito" onclick="toggleModalCarrito()" title="Ver mi Carrito de Compras">
+            {{-- 🛒 ÍCONO DEL CARRITO --}}
+            <button type="button" id="btn-carrito-nav" class="nav-carrito"
+                    onclick="toggleModalCarrito()" title="Ver mi Carrito de Compras">
                 🛒
                 <span id="contador-carrito" class="badge-carrito">0</span>
             </button>
+
         </div>
 
     </div>

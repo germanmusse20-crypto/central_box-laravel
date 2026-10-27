@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UsuariosExport;
 
 class UsuarioController extends Controller
 {
@@ -74,5 +76,9 @@ class UsuarioController extends Controller
 
         $usuario->delete();
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+    public function exportarExcel()
+    {
+        return Excel::download(new UsuariosExport, 'usuarios_central_box.xlsx');
     }
 }

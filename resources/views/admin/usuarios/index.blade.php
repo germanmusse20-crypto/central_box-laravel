@@ -41,13 +41,18 @@
         {{-- Controles lado derecho --}}
             <label class="text-sm text-gray-600 font-medium">Mostrar</>
             <select class="border border-gray-200 rounded-lg text-sm focus:outline-none  focus:ring-[#00C897]/40">
+                <option>5</option>
                 <option>10</option>
-                <option>25</option>
-                <option>50</option>
+                <option>15</option>
             </select>
-            <button class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition">
-                <i class="fa-solid fa-file-excel"></i> Excel
-            </button>
+            {{-- Botón Excel --}}
+            <a href="{{ route('admin.usuarios.exportar-excel') }}"
+               class="inline-flex items-center gap-2 text-white text-xs font-bold py-2 px-4 rounded-lg transition"
+               style="background-color: #16a34a;">
+                <i class="fa-solid fa-file-excel fa-lg"></i> Excel
+            </a>
+
+            {{-- Botón PDF --}}
             <button class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition">
                 <i class="fa-solid fa-file-pdf"></i> PDF
             </button>

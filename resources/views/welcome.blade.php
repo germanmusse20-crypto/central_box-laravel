@@ -167,176 +167,175 @@
                     </div>
                 </div>
             @empty
-                {{-- ⚪ ESTE BLOQUE SE EJECUTA SI LA BASE DE DATOS ESTÁ VACÍA (Muestra tus tarjetas actuales) --}}
-                
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/cablehdmi.png') }}" alt="Cable HDMI 2m">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">TECNOLOGÍA</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Cable HDMI 2m</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(1, 'Cable HDMI 2m', 23000, '{{ asset('images/cablehdmi.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
-                    </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 23.000</span>
-                        <span class="stock">11 disponibles</span>
-                    </div>
-                </div>
-            </div>
+                {{-- ⚪ ESTE BLOQUE SE EJECUTA SI LA BASE DE DATOS ESTÁ VACÍA --}}
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/memoria.png') }}" alt="Memoria USB 64GB">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">TECNOLOGÍA</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Memoria USB 64GB</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(2, 'Memoria USB 64GB', 23000, '{{ asset('images/memoria.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 1: Cable HDMI --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/cablehdmi.png') }}" alt="Cable HDMI 2m">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 23.000</span>
-                        <span class="stock">13 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">TECNOLOGÍA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Cable HDMI 2m</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(1, 'Cable HDMI 2m', 23000, '{{ asset('images/cablehdmi.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 23.000</span>
+                            <span class="stock">10 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/saco.png') }}" alt="Saco">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">Ropa</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Saco de frio</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(3, 'Saco de frio', 80000, '{{ asset('images/saco.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 2: Memoria USB --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/memoria.png') }}" alt="Memoria USB 64GB">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 80.000</span>
-                        <span class="stock">15 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">TECNOLOGÍA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Memoria USB 64GB</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(2, 'Memoria USB 64GB', 23000, '{{ asset('images/memoria.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 23.000</span>
+                            <span class="stock">15 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto tarjeta-destacada">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/boxer.png') }}" alt="boxer">                      
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">Ropa</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">boxer Python</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(4, 'boxer Python', 50000, '{{ asset('images/boxer.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 3: Saco de frío --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/saco.png') }}" alt="Saco de frío">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 50.000</span>
-                        <span class="stock">1 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">ROPA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Saco de frío</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(3, 'Saco de frío', 80000, '{{ asset('images/saco.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 80.000</span>
+                            <span class="stock">8 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/bebida1.png') }}" alt="Bebida 1">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">Bebidas</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Monster 500ml</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(5, 'Monster 500ml', 10000, '{{ asset('images/bebida1.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 4: Bóxer Python --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/boxer.png') }}" alt="Bóxer Python">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 10.000</span>
-                        <span class="stock">9 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">ROPA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Bóxer Python</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(4, 'Bóxer Python', 50000, '{{ asset('images/boxer.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 50.000</span>
+                            <span class="stock">12 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/max.png') }}" alt="max">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">Bebidas</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Max 250ml</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(6, 'Max 250ml', 6000, '{{ asset('images/max.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 5: Monster 500ml --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/bebida1.png') }}" alt="Monster 500ml">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 6.000</span>
-                        <span class="stock">25 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">BEBIDAS</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Monster 500ml</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(5, 'Monster 500ml', 10000, '{{ asset('images/bebida1.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 10.000</span>
+                            <span class="stock">20 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/lapicero.png') }}" alt="lapicero">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag" style="color: #0284c7;">Papeleria</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Lapicero Sharpie</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(7, 'Lapicero Sharpie', 17000, '{{ asset('images/lapicero.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 6: Max 250ml --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/max.png') }}" alt="Max 250ml">
                     </div>
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 17.000</span>
-                        <span class="stock">14 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">BEBIDAS</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Max 250ml</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(6, 'Max 250ml', 6000, '{{ asset('images/max.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 6.000</span>
+                            <span class="stock">25 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tarjeta-producto">
-                <span class="badge-disponible">✓ DISPONIBLE</span>
-                <div class="contenedor-img">
-                    <img src="{{ asset('images/papel.png') }}" alt="papel">
-                </div>
-                <div class="info-producto">
-                    <span class="categoria-tag">Papeleria</span>
-                    <div class="fila-nombre-producto">
-                        <h3 class="nombre-producto">Papel fotografico</h3>
-                        <button type="button" class="btn-agregar-carrito" 
-                            onclick="agregarAlCarrito(8, 'Papel fotografico', 9700, '{{ asset('images/papel.png') }}')" 
-                            title="Añadir al carrito">🛒
-                        </button>
+                {{-- TARJETA 7: Lapicero Sharpie --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/lapicero.png') }}" alt="Lapicero Sharpie">
                     </div>
-                    
-                    <div class="pie-tarjeta">
-                        <span class="precio">$ 9.700</span>
-                        <span class="stock">4 disponibles</span>
+                    <div class="info-producto">
+                        <span class="categoria-tag">PAPELERÍA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Lapicero Sharpie</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(7, 'Lapicero Sharpie', 17000, '{{ asset('images/lapicero.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 17.000</span>
+                            <span class="stock">30 disponibles</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                {{-- TARJETA 8: Papel fotográfico --}}
+                <div class="tarjeta-producto">
+                    <span class="badge-disponible">✓ DISPONIBLE</span>
+                    <div class="contenedor-img">
+                        <img src="{{ asset('images/papel.png') }}" alt="Papel fotográfico">
+                    </div>
+                    <div class="info-producto">
+                        <span class="categoria-tag">PAPELERÍA</span>
+                        <div class="fila-nombre-producto">
+                            <h3 class="nombre-producto">Papel fotográfico</h3>
+                            <button type="button" class="btn-agregar-carrito"
+                                onclick="agregarAlCarrito(8, 'Papel fotográfico', 9700, '{{ asset('images/papel.png') }}')"
+                                title="Añadir al carrito">🛒</button>
+                        </div>
+                        <div class="pie-tarjeta">
+                            <span class="precio">$ 9.700</span>
+                            <span class="stock">18 disponibles</span>
+                        </div>
+                    </div>
+                </div>
 
             @endforelse {{-- 👈 AQUÍ CIERRA EL FORELSE DE PRODUCTOS --}}
 

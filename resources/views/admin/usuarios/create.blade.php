@@ -6,16 +6,26 @@
 <div class="w-full space-y-6">
 
     <!-- CABECERA -->
-    <div class="flex items-center justify-between">
-        <div class="text-left">
-            <h2 class="text-2xl font-bold text-gray-900">Registrar nuevo usuario</h2>
-            <p class="text-1xl text-gray-500 w-full">Crea las credenciales de acceso para tus clientes y vendedores de central_box</p>
+<div class="flex items-center justify-between mb-2">
+
+    {{-- Ícono + Título + Subtítulo --}}
+    <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-user-plus text-[#00C897] text-xl"></i>
         </div>
-        <a href="{{ route('admin.usuarios.index') }}" class="text-white font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
-            <button type="submit" class="bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-6 rounded-xl transition shadow-md shadow-emerald-500/20">
-            <i class="fa-solid fa-arrow-left"></i> Volver al listado
-        </a>
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 leading-tight">Registrar nuevo usuario</h2>
+            <p class="text-sm text-gray-500 mt-0.5">Crea las credenciales de acceso para tus clientes y vendedores de Central Box</p>
+        </div>
     </div>
+
+    {{-- Botón Volver --}}
+    <a href="{{ route('admin.usuarios.index') }}"
+       class="inline-flex items-center gap-2 bg-white border border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 text-sm font-semibold py-2.5 px-5 rounded-xl transition shadow-sm">
+        <i class="fa-solid fa-arrow-left text-xs"></i> Volver al listado
+    </a>
+
+</div>
 
     <!-- FORMULARIO -->
     <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm w-full">
