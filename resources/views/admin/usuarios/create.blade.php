@@ -8,7 +8,7 @@
     <!-- CABECERA -->
     <div class="flex items-center justify-between">
         <div class="text-left">
-            <h2 class="text-2xl font-bold text-gray-900">Registrar Nuevo Usuario</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Registrar nuevo usuario</h2>
             <p class="text-1xl text-gray-500 w-full">Crea las credenciales de acceso para tus clientes y vendedores de central_box</p>
         </div>
         <a href="{{ route('admin.usuarios.index') }}" class="text-white font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
@@ -19,7 +19,7 @@
 
     <!-- FORMULARIO -->
     <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm w-full">
-        <form action="{{ route('admin.usuarios.store') }}" method="POST" class="space-y-6">
+        <form action="{{ route('admin.usuarios.store') }}" method="POST" autocomplete="off" class="space-y-6">
             @csrf
 
             <!-- Nombre -->
@@ -34,7 +34,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Correo Electrónico *</label>
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="usuario@correo.com" required
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="usuario@correo.com" required autocomplete="off"
                         class="w-full rounded-xl border-gray-200 focus:border-[#00C897] focus:ring-[#00C897] text-sm">
                     @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>

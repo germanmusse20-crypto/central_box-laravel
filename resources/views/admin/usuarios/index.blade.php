@@ -66,11 +66,12 @@
                 {{-- ENCABEZADOS DE LA TABLA --}}
                 <thead class="bg-gray-50/70 text-gray-700 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
                     <tr>
-                        <th class="py-4 px-6">ID <i class="fa-solid fa-sort text-gray-400 ml-1"></i></th>
-                        <th class="py-4 px-6">Nombre <i class="fa-solid fa-sort text-gray-400 ml-1"></i></th>
-                        <th class="py-4 px-6">Email <i class="fa-solid fa-sort text-gray-400 ml-1"></i></th>
-                        <th class="py-4 px-6">Rol <i class="fa-solid fa-sort text-gray-400 ml-1"></i></th>
-                        <th class="py-4 px-6">Estado <i class="fa-solid fa-sort text-gray-400 ml-1"></i></th>
+                        <th class="py-4 px-6">ID</th>
+                        <th class="py-4 px-6">Nombre</i></th>
+                        <th class="py-4 px-6">Email</th>
+                        <th class="py-4 px-6">Telefono</th>
+                        <th class="py-4 px-6">Rol</th>
+                        <th class="py-4 px-6">Estado</th>
                         <th class="py-4 px-6 text-center">Editar</th>
                         <th class="py-4 px-6 text-center">Eliminar</th>
                     </tr>
@@ -90,9 +91,12 @@
                             {{-- Columna Email --}}
                             <td class="py-4 px-6">{{ $usr->email }}</td>
 
+                            {{-- Columna Telefono --}}
+                            <td class="py-4 px-6">{{ $usr->telefono ?? 'N/A' }}</td>
+
                             {{-- Columna Rol --}}
                             <td class="py-4 px-6">
-                                @if($usr->rol === 'admin')
+                                @if($usr->rol === 'Admin')
                                     <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-700">admin</span>
                                 @elseif($usr->rol === 'vendedor')
                                     <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-700">vendedor</span>
@@ -162,84 +166,165 @@
     {{-- FIN CAJA 3 --}}
 
 </div>
-{{-- ============================================
-     MODAL EDITAR USUARIO
-     ============================================ --}}
-<div id="modalEditar" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4">
 
-        {{-- Cabecera del modal --}}
-        <div class="flex items-center justify-between p-6 border-b border-gray-100">
-            <h3 class="text-lg font-bold text-gray-900">
-                <i class="fa-solid fa-user-pen text-[#00C897] mr-2"></i> Editar Usuario
-            </h3>
-            <button onclick="cerrarModalEditar()" class="text-gray-400 hover:text-gray-600 transition">
-                <i class="fa-solid fa-xmark text-xl"></i>
+<style>
+    /* Animación suave del fondo */
+    @keyframes modalEditarFondo {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Animación de entrada de la ventana */
+    @keyframes modalEditarTarjeta {
+        from {
+            opacity: 0;
+            transform: translateY(14px) scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Fondo del modal */
+    #modalEditar.animar-entrada {
+        animation: modalEditarFondo 220ms ease-out both;
+    }
+
+    /* Cuadro blanco del modal */
+    #modalEditar.animar-entrada > div {
+        animation: modalEditarTarjeta 260ms
+            cubic-bezier(0.2, 0.8, 0.2, 1) both;
+            
+    }
+
+    /* Respetar a quienes prefieren menos movimiento */
+    @media (prefers-reduced-motion: reduce) {
+        #modalEditar.animar-entrada,
+        #modalEditar.animar-entrada > div {
+            animation: none !important;
+        }
+    }
+</style>
+
+{{-- MODAL EDITAR USUARIO --}}
+<div id="modalEditar"
+    class="fixed inset-0 z-50 hidden items-center justify-center overflow-y-auto bg-slate-950/60 px-4 py-6 backdrop-blur-sm"
+    role="dialog" aria-modal="true" aria-labelledby="modalEditarTitulo">
+
+    <div class="my-auto max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl ring-1 ring-slate-900/10">
+
+        {{-- Cabecera --}}
+        <div class="flex items-start justify-between border-b border-slate-100 bg-gradient-to-r from-emerald-50 via-white to-white px-6 py-5 sm:px-8">
+
+            <div class="flex items-center gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
+                    <i class="fa-solid fa-user-pen text-xl"></i>
+                </div>
+
+                <div>
+                    <h3 id="modalEditarTitulo" class="text-xl font-bold tracking-tight text-slate-900">
+                        Editar usuario
+                    </h3>
+                    <p class="mt-1 text-sm text-slate-500">
+                        Actualiza la información de la cuenta.
+                    </p>
+                </div>
+            </div>
+
+            <button type="button"
+                onclick="cerrarModalEditar()"
+                aria-label="Cerrar ventana"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
 
         {{-- Formulario --}}
-        <form id="formEditar" method="POST" class="p-6 space-y-4">
+        <form id="formEditar" method="POST" class="px-6 py-6 sm:px-8">
             @csrf
             @method('PUT')
 
-            {{-- Nombre --}}
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre</label>
-                <input type="text" id="editNombre" name="nombre" required
-                    class="w-full px-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
-            </div>
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
-            {{-- Email --}}
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                <input type="email" id="editEmail" name="email" required
-                    class="w-full px-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
-            </div>
+                {{-- Nombre --}}
+                <div>
+                    <label for="editNombre" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Nombre completo
+                    </label>
+                    <input type="text" id="editNombre" name="nombre" required
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#00C897] focus:ring-4 focus:ring-emerald-100">
+                </div>
 
-            {{-- Teléfono --}}
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Teléfono</label>
-                <input type="text" id="editTelefono" name="telefono"
-                    class="w-full px-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
-            </div>
+                {{-- Correo --}}
+                <div>
+                    <label for="editEmail" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Correo electrónico
+                    </label>
+                    <input type="email" id="editEmail" name="email" required
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#00C897] focus:ring-4 focus:ring-emerald-100">
+                </div>
 
-            {{-- Rol --}}
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Rol</label>
-                <select id="editRol" name="rol" required
-                    class="w-full px-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
-                    <option value="admin">Admin</option>
-                    <option value="vendedor">Vendedor</option>
-                    <option value="cliente">Cliente</option>
-                </select>
-            </div>
+                {{-- Teléfono --}}
+                <div>
+                    <label for="editTelefono" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Teléfono
+                    </label>
+                    <input type="text" id="editTelefono" name="telefono"
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#00C897] focus:ring-4 focus:ring-emerald-100">
+                </div>
 
-            {{-- Estado --}}
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Estado</label>
-                <select id="editEstado" name="estado" required
-                    class="w-full px-4 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
-                    <option value="active">Activo</option>
-                    <option value="inactive">Inactivo</option>
-                </select>
+                {{-- Rol --}}
+                <div>
+                    <label for="editRol" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Rol del usuario
+                    </label>
+                    <select id="editRol" name="rol" required
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#00C897] focus:ring-4 focus:ring-emerald-100">
+                        <option value="Admin">Admin</option>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Cliente">Cliente</option>
+                    </select>
+                </div>
+
+                {{-- Estado --}}
+                <div class="sm:col-span-2">
+                    <label for="editEstado" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Estado de la cuenta
+                    </label>
+                    <select id="editEstado" name="estado" required
+                        class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#00C897] focus:ring-4 focus:ring-emerald-100">
+                        <option value="active">Activo</option>
+                        <option value="inactive">Inactivo</option>
+                    </select>
+                    <p class="mt-2 text-xs text-slate-500">
+                        Selecciona si la cuenta puede permanecer activa o debe quedar inactiva.
+                    </p>
+                </div>
             </div>
 
             {{-- Botones --}}
-            <div class="flex justify-end gap-3 pt-2">
+            <div class="mt-8 flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:justify-end">
+
                 <button type="button" onclick="cerrarModalEditar()"
-                    class="px-4 py-2 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition">
+                    class="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">
                     Cancelar
                 </button>
+
                 <button type="submit"
-                    class="px-4 py-2 text-sm font-bold text-white bg-[#00C897] hover:bg-[#009e77] rounded-xl transition">
-                    Guardar Cambios
+                    class="rounded-xl bg-[#00C897] px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#009e77] focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    <i class="fa-solid fa-floppy-disk mr-2"></i>
+                    Guardar cambios
                 </button>
             </div>
         </form>
-
     </div>
 </div>
+
 
 @endsection
 
@@ -255,7 +340,7 @@
     });
     function abrirModalEditar(id, nombre, email, telefono, rol, estado) {
     // 1. Construimos la URL de envío con el ID del usuario
-    document.getElementById('formEditar').action = '/admin/usuarios/' + id;
+    document.getElementById('formEditar').action = '/Admin/usuarios/' + id;
 
     // 2. Llenamos cada campo del formulario con los datos del usuario
     document.getElementById('editNombre').value   = nombre;
@@ -275,6 +360,10 @@ function cerrarModalEditar() {
     const modal = document.getElementById('modalEditar');
     modal.classList.add('hidden');
     modal.classList.remove('flex');
+    // Reiniciar la animación para que funcione en cada apertura
+    modal.classList.remove('animar-entrada');
+    void modal.offsetWidth;
+    modal.classList.add('animar-entrada');
 }
 
 // Cerrar el modal si el usuario hace clic fuera del cuadro blanco

@@ -87,7 +87,7 @@
                         <option value="vendedor" {{ old('rol', $usuario->rol) === 'vendedor' ? 'selected' : '' }}>
                             Vendedor
                         </option>
-                        <option value="admin" {{ old('rol', $usuario->rol) === 'admin' ? 'selected' : '' }}>
+                        <option value="admin" {{ old('rol', $usuario->rol) === 'Admin' ? 'selected' : '' }}>
                             Administrador
                         </option>
                     </select>

@@ -11,7 +11,7 @@ class EsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->rol !== 'admin') {
+        if (!Auth::check() || Auth::user()->rol !== 'Admin') {
             abort(403, 'Acceso denegado: Se requieren permisos de Administrador de Central Box.');
         }
 

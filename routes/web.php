@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\MetodoPagoController;
 
 Route::get('/dashboard', function () {
-    if (auth()->user()->rol === 'admin') {
+    if (auth()->user()->rol === 'Admin') {
         return redirect()->route('admin.dashboard');
     }
     return view('dashboard'); // Vista para clientes regulares
