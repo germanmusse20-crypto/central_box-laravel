@@ -379,7 +379,8 @@
         ">
          
             @forelse ($categorias as $cat)
-                <a href="#productos" class="tarjeta-categoria">
+                {{-- Tarjeta cuando hay categorías en la Base de Datos --}}
+                <div class="tarjeta-categoria" style="cursor: pointer;" onclick="abrirModalCategoria('{{ $cat->nombre }}')">
                     <div class="categoria-info-izq">
                         <div class="icono-categoria">📦</div>
                         <div>
@@ -389,61 +390,58 @@
                     </div>
                     <span class="flecha-categoria">→</span>
                     <div class="burbuja-decorativa"></div>
-                </a>
+                </div>
             @empty
-                {{-- Aquí dejas tus 4 tarjetas estáticas (Bebidas, Papelería, Ropa, Tecnología) --}}
-            {{-- CATEGORÍA 1: Bebidas --}}
-            <a href="#productos" class="tarjeta-categoria">
-                <div class="categoria-info-izq">
-                    <div class="icono-categoria">☕</div>
-                    <div>
-                        <h3 class="nombre-categoria">Bebidas</h3>
-                        <p class="conteo-categoria">3 productos</p>
+                {{-- Tarjetas estáticas de respaldo cuando la BD aún no tiene registros --}}
+                {{-- CATEGORÍA 1: Bebidas --}}
+                <div class="tarjeta-categoria" style="cursor: pointer;" onclick="abrirModalCategoria('BEBIDAS')">
+                    <div class="categoria-info-izq">
+                        <div class="icono-categoria">☕</div>
+                        <div>
+                            <h3 class="nombre-categoria">Bebidas</h3>
+                            <p class="conteo-categoria">2 productos</p>
+                        </div>
                     </div>
+                    <span class="flecha-categoria">→</span>
+                    <div class="burbuja-decorativa"></div>
                 </div>
-                <span class="flecha-categoria">→</span>
-                <div class="burbuja-decorativa"></div>
-            </a>
-
-            {{-- CATEGORÍA 2: Papelería --}}
-            <a href="#productos" class="tarjeta-categoria">
-                <div class="categoria-info-izq">
-                    <div class="icono-categoria">✂️</div>
-                    <div>
-                        <h3 class="nombre-categoria">Papelería</h3>
-                        <p class="conteo-categoria">4 productos</p>
+                {{-- CATEGORÍA 2: Papelería --}}
+                <div class="tarjeta-categoria" style="cursor: pointer;" onclick="abrirModalCategoria('PAPELERÍA')">
+                    <div class="categoria-info-izq">
+                        <div class="icono-categoria">✂️</div>
+                        <div>
+                            <h3 class="nombre-categoria">Papelería</h3>
+                            <p class="conteo-categoria">2 productos</p>
+                        </div>
                     </div>
+                    <span class="flecha-categoria">→</span>
+                    <div class="burbuja-decorativa"></div>
                 </div>
-                <span class="flecha-categoria">→</span>
-                <div class="burbuja-decorativa"></div>
-            </a>
-
-            {{-- CATEGORÍA 3: Ropa --}}
-            <a href="#productos" class="tarjeta-categoria">
-                <div class="categoria-info-izq">
-                    <div class="icono-categoria">👕</div>
-                    <div>
-                        <h3 class="nombre-categoria">Ropa</h3>
-                        <p class="conteo-categoria">5 productos</p>
+                {{-- CATEGORÍA 3: Ropa --}}
+                <div class="tarjeta-categoria" style="cursor: pointer;" onclick="abrirModalCategoria('ROPA')">
+                    <div class="categoria-info-izq">
+                        <div class="icono-categoria">👕</div>
+                        <div>
+                            <h3 class="nombre-categoria">Ropa</h3>
+                            <p class="conteo-categoria">2 productos</p>
+                        </div>
                     </div>
+                    <span class="flecha-categoria">→</span>
+                    <div class="burbuja-decorativa"></div>
                 </div>
-                <span class="flecha-categoria">→</span>
-                <div class="burbuja-decorativa"></div>
-            </a>
-
-            {{-- CATEGORÍA 4: Tecnología --}}
-            <a href="#productos" class="tarjeta-categoria">
-                <div class="categoria-info-izq">
-                    <div class="icono-categoria">💻</div>
-                    <div>
-                        <h3 class="nombre-categoria">Tecnología</h3>
-                        <p class="conteo-categoria">7 productos</p>
+                {{-- CATEGORÍA 4: Tecnología --}}
+                <div class="tarjeta-categoria" style="cursor: pointer;" onclick="abrirModalCategoria('TECNOLOGÍA')">
+                    <div class="categoria-info-izq">
+                        <div class="icono-categoria">💻</div>
+                        <div>
+                            <h3 class="nombre-categoria">Tecnología</h3>
+                            <p class="conteo-categoria">2 productos</p>
+                        </div>
                     </div>
+                    <span class="flecha-categoria">→</span>
+                    <div class="burbuja-decorativa"></div>
                 </div>
-                <span class="flecha-categoria">→</span>
-                <div class="burbuja-decorativa"></div>
-            </a>
-        @endforelse
+            @endforelse
 
         </div>
 
@@ -1386,4 +1384,263 @@
     .pasarela-card-7 { animation-delay: 42s; }
     .pasarela-card-8 { animation-delay: 49s; }
 </style>
+{{-- =========================================================
+     MODAL INTERACTIVO DE PRODUCTOS POR CATEGORÍA
+     ========================================================= --}}
+{{-- Contenedor oscuro difuminado (Backdrop) --}}
+<div id="modal-categoria-overlay" class="modal-overlay-categoria" onclick="cerrarModalCategoria(event)">
+    <div class="modal-caja-categoria" onclick="event.stopPropagation()">
+        
+        {{-- Encabezado del Modal --}}
+        <div class="modal-cabecera-cat">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div id="modal-icono-cat" class="modal-icono-badge">📦</div>
+                <div>
+                    <span style="font-size: 11px; font-weight: 800; color: #00C897; letter-spacing: 1px; text-transform: uppercase;">
+                        SECCIÓN CENTRAL BOX
+                    </span>
+                    <h2 id="modal-titulo-cat" style="margin: 2px 0 0 0; font-size: 24px; font-weight: 800; color: #0f172a;">
+                        Productos
+                    </h2>
+                </div>
+            </div>
+            <button type="button" class="btn-cerrar-modal" onclick="forzarCerrarModalCategoria()" title="Cerrar ventana">
+                ✕
+            </button>
+        </div>
+        {{-- Subbarra con contador de artículos --}}
+        <div style="padding: 10px 24px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-size: 13px; color: #64748b;">
+            Mostrando artículos disponibles en esta categoría:
+        </div>
+        {{-- Contenedor dinámico donde se inyectan los productos --}}
+        <div id="modal-lista-productos" class="modal-grid-productos">
+            <!-- Se llena automáticamente con JavaScript -->
+        </div>
+        {{-- Pie del modal --}}
+        <div class="modal-pie-cat">
+            <span style="font-size: 12px; color: #94a3b8;">
+                ⚡ Precios en Pesos Colombianos (COP) • Stock en tiempo real
+            </span>
+            <button type="button" onclick="forzarCerrarModalCategoria()" style="
+                background: #f1f5f9; color: #475569; border: none; font-weight: 700;
+                font-size: 13px; padding: 8px 18px; border-radius: 8px; cursor: pointer;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+{{-- Estilos visuales del Modal adaptados a Central Box --}}
+<style>
+    /* Fondo oscuro con desenfoque elegante */
+    .modal-overlay-categoria {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+    .modal-overlay-categoria.activo {
+        display: flex;
+        opacity: 1;
+    }
+    /* Caja blanca del modal */
+    .modal-caja-categoria {
+        background: #ffffff;
+        width: 100%;
+        max-width: 860px;
+        max-height: 85vh;
+        border-radius: 22px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1.5px rgba(0, 200, 151, 0.2);
+        animation: animarEntradaModal 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes animarEntradaModal {
+        from {
+            opacity: 0;
+            transform: scale(0.94) translateY(18px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    .modal-cabecera-cat {
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #f1f5f9;
+        background: #ffffff;
+    }
+    .modal-icono-badge {
+        width: 48px;
+        height: 48px;
+        background: #e6f9f4;
+        border: 1px solid rgba(0, 200, 151, 0.3);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+    .btn-cerrar-modal {
+        background: #f1f5f9;
+        border: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        color: #64748b;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    .btn-cerrar-modal:hover {
+        background: #fee2e2;
+        color: #ef4444;
+        transform: rotate(90deg);
+    }
+    /* Cuadrícula interna de productos */
+    .modal-grid-productos {
+        padding: 24px;
+        overflow-y: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 18px;
+        max-height: 520px;
+        background: #f8fafc;
+    }
+    .modal-pie-cat {
+        padding: 14px 24px;
+        background: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+</style>
+{{-- Lógica JavaScript: Base de datos unificada en memoria y render dinámico --}}
+<script>
+    // 1. Inventario unificado: Si la BD tiene productos los toma, y si no, usa los de muestra de Central Box
+    const inventarioCentralBox = [
+        @if ($productos->count() > 0)
+            @foreach ($productos as $p)
+                {
+                    id: {{ $p->id }},
+                    nombre: "{{ addslashes($p->nombre) }}",
+                    categoria: "{{ strtoupper(trim($p->categoria->nombre ?? 'GENERAL')) }}",
+                    precio: {{ $p->precio }},
+                    stock: {{ $p->stock }},
+                    imagen: "{{ $p->imagen ? asset('images/' . $p->imagen) : asset('images/cablehdmi.png') }}"
+                },
+            @endforeach
+        @else
+            { id: 1, nombre: "Monster 500ml", categoria: "BEBIDAS", precio: 10000, stock: 20, imagen: "{{ asset('images/bebida1.png') }}" },
+            { id: 2, nombre: "Max 250ml", categoria: "BEBIDAS", precio: 6000, stock: 25, imagen: "{{ asset('images/max.png') }}" },
+            { id: 3, nombre: "Lapicero Sharpie", categoria: "PAPELERÍA", precio: 17000, stock: 30, imagen: "{{ asset('images/lapicero.png') }}" },
+            { id: 4, nombre: "Papel fotográfico", categoria: "PAPELERÍA", precio: 9700, stock: 18, imagen: "{{ asset('images/papel.png') }}" },
+            { id: 5, nombre: "Saco de frío", categoria: "ROPA", precio: 80000, stock: 8, imagen: "{{ asset('images/saco.png') }}" },
+            { id: 6, nombre: "Bóxer Python", categoria: "ROPA", precio: 50000, stock: 12, imagen: "{{ asset('images/boxer.png') }}" },
+            { id: 7, nombre: "Cable HDMI 2m", categoria: "TECNOLOGÍA", precio: 23000, stock: 10, imagen: "{{ asset('images/cablehdmi.png') }}" },
+            { id: 8, nombre: "Memoria USB 64GB", categoria: "TECNOLOGÍA", precio: 23000, stock: 15, imagen: "{{ asset('images/memoria.png') }}" }
+        @endif
+    ];
+    // Iconos asociados a cada categoría
+    const iconosCategorias = {
+        'BEBIDAS': '☕',
+        'PAPELERÍA': '✂️',
+        'ROPA': '👕',
+        'TECNOLOGÍA': '💻'
+    };
+    // 2. Función que abre el modal y filtra los productos
+    function abrirModalCategoria(nombreCat) {
+        const modal = document.getElementById('modal-categoria-overlay');
+        const titulo = document.getElementById('modal-titulo-cat');
+        const icono = document.getElementById('modal-icono-cat');
+        const contenedor = document.getElementById('modal-lista-productos');
+        const catLimpia = nombreCat.toUpperCase().trim();
+        // Asignamos título e ícono
+        titulo.textContent = 'Categoría: ' + nombreCat.charAt(0).toUpperCase() + nombreCat.slice(1).toLowerCase();
+        icono.textContent = iconosCategorias[catLimpia] || '📦';
+        // Filtramos los productos que coincidan con la categoría
+        const productosFiltrados = inventarioCentralBox.filter(prod => {
+            return prod.categoria.includes(catLimpia) || catLimpia.includes(prod.categoria);
+        });
+        // Limpiamos el contenedor
+        contenedor.innerHTML = '';
+        if (productosFiltrados.length === 0) {
+            contenedor.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px 10px; color: #64748b;">
+                    <span style="font-size: 38px; display: block; margin-bottom: 8px;">📦</span>
+                    <h4 style="margin: 0 0 6px 0; color: #0f172a; font-size: 16px;">Sin productos en esta categoría</h4>
+                    <p style="margin: 0; font-size: 13px;">Pronto agregaremos más artículos a esta sección.</p>
+                </div>
+            `;
+        } else {
+            // Dibujamos las tarjetas idénticas al diseño de Central Box
+            productosFiltrados.forEach(prod => {
+                const stockBadge = prod.stock > 0 
+                    ? `<span class="badge-disponible">✓ DISPONIBLE</span>` 
+                    : `<span class="badge-disponible" style="background:#fee2e2; color:#ef4444; border-color:rgba(239,68,68,0.2);">✕ AGOTADO</span>`;
+                const precioFormateado = Number(prod.precio).toLocaleString('es-CO');
+                contenedor.innerHTML += `
+                    <div class="tarjeta-producto" style="background: #ffffff;">
+                        ${stockBadge}
+                        <div class="contenedor-img" style="height: 125px; padding-top: 15px;">
+                            <img src="${prod.imagen}" alt="${prod.nombre}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                        </div>
+                        <div class="info-producto" style="padding: 12px 14px 14px;">
+                            <span class="categoria-tag">${prod.categoria}</span>
+                            <div class="fila-nombre-producto" style="margin-bottom: 10px;">
+                                <h3 class="nombre-producto" style="font-size: 15px;">${prod.nombre}</h3>
+                                <button type="button" 
+                                        class="btn-agregar-carrito" 
+                                        onclick="agregarAlCarrito('${prod.id}', '${prod.nombre}', ${prod.precio}, '${prod.imagen}')"
+                                        title="Añadir al carrito">
+                                    🛒
+                                </button>
+                            </div>
+                            <div class="pie-tarjeta">
+                                <span class="precio" style="font-size: 18px;">$ ${precioFormateado}</span>
+                                <span class="stock">${prod.stock} disp.</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        // Mostramos el modal con animación
+        modal.classList.add('activo');
+        document.body.style.overflow = 'hidden'; // Evita que se mueva la página de fondo
+    }
+    // 3. Funciones para cerrar el modal
+    function forzarCerrarModalCategoria() {
+        const modal = document.getElementById('modal-categoria-overlay');
+        modal.classList.remove('activo');
+        document.body.style.overflow = ''; // Restaura el scroll
+    }
+    function cerrarModalCategoria(event) {
+        if (event.target.id === 'modal-categoria-overlay') {
+            forzarCerrarModalCategoria();
+        }
+    }
+    // Cerrar también si presiona la tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            forzarCerrarModalCategoria();
+        }
+    });
+</script>
 @endsection

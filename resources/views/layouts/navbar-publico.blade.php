@@ -89,7 +89,7 @@
     ">
 
         {{-- COLUMNA 1: LOGO (izquierda) --}}
-        <a href="/" style="display: flex; align-items: center; gap: 10px; text-decoration: none; white-space: nowrap;">
+        <a href="/" style="display: flex; align-items: center; gap: 1px; text-decoration: none; white-space: nowrap;">
             <img src="{{ asset('images/Icono.png') }}" alt="Icono" style="width: 46px; height: 46px;">
             <span style="font-weight: 700; color: #1a1a2e; font-size: 18px;">
                 Central <strong style="color: #00C897;">box</strong>
@@ -106,11 +106,11 @@
             align-items: center;
             gap: 20px;
         ">
-            <li><a href="/" class="nav-link-activo">🏠 Inicio</a></li>
-            <li><a href="#productos" class="nav-link">🛒 Productos</a></li>
-            <li><a href="#categorias" class="nav-link">📋 Categorías</a></li>
-            <li><a href="#promociones" class="nav-link">🏷️ Promociones</a></li>
-            <li><a href="#nosotros" class="nav-link">👨‍💼 Nosotros</a></li>
+            <li><a href="/" class="nav-link-activo">🏠Inicio</a></li>
+            <li><a href="#productos" class="nav-link">🛒Productos</a></li>
+            <li><a href="#categorias" class="nav-link">📋Categorías</a></li>
+            <li><a href="#promociones" class="nav-link">🏷️Promociones</a></li>
+            <li><a href="#nosotros" class="nav-link">👨‍💼Nosotros</a></li>
         </ul>
 
         {{-- COLUMNA 3: BOTONES (derecha) --}}
@@ -118,19 +118,19 @@
 
             @if (Route::has('login'))
                 <a href="{{ route('login') }}"
-                   style="padding: 8px 18px; border: 2px solid #00C897; color: #00C897;
-                          border-radius: 8px; text-decoration: none; font-weight: 600;
+                   style="padding: 6px 18px; border: 2px solid #00C897; color: #00C897;
+                          border-radius: 15px; text-decoration: none; font-weight: 600;
                           font-size: 14px; white-space: nowrap;">
-                    → Iniciar sesión
+                    ➡️Iniciar sesión
                 </a>
             @endif
 
             @if (Route::has('register'))
                 <a href="{{ route('register') }}"
                    style="padding: 8px 18px; background: #00C897; color: white;
-                          border-radius: 8px; text-decoration: none; font-weight: 600;
+                          border-radius: 15px; text-decoration: none; font-weight: 600;
                           font-size: 14px; white-space: nowrap;">
-                    👤 Regístrate
+                    👤Regístrate
                 </a>
             @endif
 

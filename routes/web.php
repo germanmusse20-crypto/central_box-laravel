@@ -47,6 +47,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('metodos-pago/{metodo}/toggle', [MetodoPagoController::class, 'toggle'])->name('metodos-pago.toggle');
 
 });
+// Ruta pública: Catálogo filtrado por categoría
+use App\Http\Controllers\CatalogoController;
+
+Route::get('/catalogo/{id}', [CatalogoController::class, 'porCategoria'])
+    ->name('catalogo.categoria');
 
 Route::get('/', function () {
     // Consultamos los productos activos (con su categoría para evitar consultas lentas)
