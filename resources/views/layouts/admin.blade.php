@@ -155,9 +155,17 @@
                 </a>
                 <!-- 5. SECCIÓN: CONFIGURACIÓN -->
                 <div class="px-3 pt-4 pb-2 text-[11px] font-bold tracking-wider text-gray-400 uppercase">Configuración</div>
+
+                {{-- Opción 1: Mi Perfil --}}
+                <a href="{{ route('admin.perfil.index') }}"
+                class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs('admin.perfil.*') ? 'nav-item-active' : '' }}">
+                    <i class="fa-solid fa-user-gear w-5"></i> <span>Mi Perfil</span>
+                </a>
+
+                {{-- Opción 2: Métodos de Pago --}}
                 <a href="{{ route('admin.metodos-pago.index') }}"
                 class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs('admin.metodos-pago.*') ? 'nav-item-active' : '' }}">
-                <i class="fa-solid fa-credit-card w-5"></i> <span>Métodos de Pago</span>
+                    <i class="fa-solid fa-credit-card w-5"></i> <span>Métodos de Pago</span>
                 </a>
             </nav>
 

@@ -42,24 +42,15 @@ class MetodoPagoController extends Controller
     // =========================================================
     public function toggle(MetodoPago $metodo)
     {
-        // Línea 41: Determinamos el nuevo estado (lógica de inversión):
-        // - Si el estado actual es 'active'  → cambiamos a 'inactive'
-        // - Si el estado actual es 'inactive' → cambiamos a 'active'
-        // El operador ternario hace exactamente eso en una sola línea
-        $nuevoEstado = $metodo->estado === 'active' ? 'inactive' : 'active';
+        // Alternamos entre 'activo' e 'inactivo' según el enum de MySQL
+        $nuevoEstado = in_array($metodo->estado, ['activo', 'active']) ? 'inactivo' : 'activo';
 
-        // Línea 46: Actualizamos SOLO el campo 'estado' en la BD
-        // update() ejecuta un UPDATE de SQL directamente sobre ese registro
         $metodo->update(['estado' => $nuevoEstado]);
 
-        // Línea 50: Preparamos el mensaje para mostrar al usuario
-        // Si el nuevo estado es 'active' mostramos "habilitado", sino "deshabilitado"
-        $mensaje = $nuevoEstado === 'active'
+        $mensaje = $nuevoEstado === 'activo'
             ? "✅ Método '{$metodo->nombre}' habilitado correctamente."
             : "⛔ Método '{$metodo->nombre}' deshabilitado correctamente.";
 
-        // Línea 56: Redireccionamos de vuelta al listado y enviamos el mensaje flash
-        // with('success', ...) guarda el mensaje en la sesión para que admin.blade.php lo muestre
         return redirect()->route('admin.metodos-pago.index')->with('success', $mensaje);
     }
 }

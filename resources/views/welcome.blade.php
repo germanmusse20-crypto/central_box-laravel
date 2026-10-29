@@ -503,7 +503,12 @@
                             </div>
                             <span class="promo-stock-alerta">⚡ ¡Quedan {{ $promo->producto->stock ?? 0 }}!</span>
                         </div>
-                        <a href="#productos" class="btn-aprovechar-promo">🛒 Aprovechar Oferta</a>
+                        <button type="button" 
+                        class="btn-aprovechar-promo" 
+                        style="border: none; width: 100%; cursor: pointer;"
+                        onclick="agregarAlCarrito('promo_{{ $promo->id }}', '{{ $promo->nombre }} (Oferta)', {{ $precioConDescuento }}, '{{ asset('images/' . ($promo->producto->imagen ?? 'saco.png')) }}')">
+                        🛒 Aprovechar Oferta
+                        </button>
                     </div>
                 </div>
             @empty
@@ -535,9 +540,12 @@
                         <span class="promo-stock-alerta">⚡ ¡Quedan 3!</span>
                     </div>
                     {{-- Botón CTA --}}
-                    <a href="#productos" class="btn-aprovechar-promo">
-                        🛒 Aprovechar Oferta
-                    </a>
+                    <button type="button" 
+                    class="btn-aprovechar-promo" 
+                    style="border: none; width: 100%; cursor: pointer;"
+                    onclick="agregarAlCarrito('promo_saco', 'Saco de Frío Premium (Oferta)', 56000, '{{ asset('images/saco.png') }}')">
+                    🛒 Aprovechar Oferta
+                    </button>
                 </div>
             </div>
             {{-- PROMO 2: TECNOLOGÍA --}}
@@ -561,9 +569,12 @@
                         </div>
                         <span class="promo-stock-alerta">⚡ ¡Quedan 5!</span>
                     </div>
-                    <a href="#productos" class="btn-aprovechar-promo">
+                    <button type="button" 
+                        class="btn-aprovechar-promo" 
+                        style="border: none; width: 100%; cursor: pointer;"
+                        onclick="agregarAlCarrito('promo_memoria', 'Memoria USB 64GB Kingston (Oferta)', 22500, '{{ asset('images/memoria.png') }}')">
                         🛒 Aprovechar Oferta
-                    </a>
+                    </button>
                 </div>
             </div>
             {{-- PROMO 3: BEBIDAS --}}
@@ -587,9 +598,12 @@
                         </div>
                         <span class="promo-stock-alerta">⚡ ¡Quedan 8!</span>
                     </div>
-                    <a href="#productos" class="btn-aprovechar-promo">
+                    <button type="button" 
+                        class="btn-aprovechar-promo" 
+                        style="border: none; width: 100%; cursor: pointer;"
+                        onclick="agregarAlCarrito('promo_monster', 'Pack Monster Energy 500ml (Oferta)', 9600, '{{ asset('images/bebida1.png') }}')">
                         🛒 Aprovechar Oferta
-                    </a>
+                    </button>
                 </div>
             </div>
 

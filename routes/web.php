@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\MetodoPagoController;
+use App\Http\Controllers\Admin\PerfilController;
 
 Route::get('/dashboard', function () {
     if (auth()->user()->rol === 'Admin') {
@@ -45,6 +46,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // 11. Métodos de Pago (solo visualizar y cambiar estado)
     Route::get('metodos-pago', [MetodoPagoController::class, 'index'])->name('metodos-pago.index');
     Route::post('metodos-pago/{metodo}/toggle', [MetodoPagoController::class, 'toggle'])->name('metodos-pago.toggle');
+    // 12. Mi Perfil de Administrador
+    Route::get('perfil', [PerfilController::class, 'index'])->name('perfil.index');
+    Route::put('perfil', [PerfilController::class, 'update'])->name('perfil.update');
 
 });
 // Ruta pública: Catálogo filtrado por categoría

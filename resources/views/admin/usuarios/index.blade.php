@@ -30,12 +30,13 @@
     <div class="flex flex-wrap items-center justify-between gap-4">
 
         {{-- Buscador lado izquierdo --}}
-        <div class="relative flex-1">
-            <span class="absolute inset-y-0 right-3 flex items-center text-gray-400">
-                <i class="fa-solid fa-magnifying-glass text-sm"></i>
-            </span>
+        <div class="relative flex-1" style="position: relative; flex: 1;">
             <input type="text" id="buscadorUsuario" placeholder="Buscar usuario..."
-                class="w-full pl-4 pr-9 py-2 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50">
+                class="w-full pl-4 pr-10 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00C897]/40 bg-gray-50 text-gray-800"
+                style="width: 100%; padding-left: 16px; padding-right: 42px; padding-top: 10px; padding-bottom: 10px; font-size: 14px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #f9fafb; outline: none;">
+            <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #9ca3af; display: flex; align-items: center;">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 14px;"></i>
+            </span>
         </div>
 
         {{-- Controles lado derecho --}}
