@@ -20,7 +20,32 @@
             --cb-bg: #f8fafc;
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--cb-bg); }
-        .sidebar { background-color: var(--cb-navy); min-height: 100vh; }
+        /* 🔒 SIDEBAR ESTÁTICO CON SCROLL INDEPENDIENTE */
+        .sidebar { 
+            background-color: var(--cb-navy); 
+            height: 100vh; 
+            position: sticky; 
+            top: 0; 
+            overflow-y: auto; 
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+        }
+
+        /* Estilo sutil y elegante de la barrita de scroll para el Sidebar */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 999px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #00C897;
+        }
+
         .nav-item-active { background: rgba(0, 200, 151, 0.15); border-left: 4px solid var(--cb-primary); color: var(--cb-primary) !important; }
         .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
     </style>
@@ -28,7 +53,7 @@
 <body class="flex antialiased text-gray-800">
 
     <!-- SIDEBAR LATERAL -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col justify-between py-5 px-3 text-gray-300">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col justify-between py-5 px-3 text-gray-300 sticky top-0 h-screen overflow-y-auto">
         <div>
             <!-- Branding Central Box -->
             <div class="flex items-center gap-3 px-3 pb-6">
@@ -172,7 +197,7 @@
         </div>
 
         <!-- Usuario & Cerrar Sesión -->
-        <div class="pt-4 border-t border-gray-700/80">
+        <div class="pt-4 border-t border-gray-700/80 flex-shrink-0 mt-6">
             <div class="flex items-center gap-3 px-3 py-2">
                 <div class="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-sm border border-emerald-500/30">
                     {{ substr(Auth::user()->nombre ?? 'A', 0, 1) }}
