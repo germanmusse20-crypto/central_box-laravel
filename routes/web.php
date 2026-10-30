@@ -15,10 +15,16 @@ use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\ReporteController;
 use App\Http\Controllers\Admin\MetodoPagoController;
 use App\Http\Controllers\Admin\PerfilController;
+use App\Http\Controllers\Empleado\DashboardController as EmpleadoDashboardController;
+use App\Http\Controllers\Empleado\PromocionController as EmpleadoPromocionController;
 
 Route::get('/dashboard', function () {
     if (auth()->user()->rol === 'Admin') {
         return redirect()->route('admin.dashboard');
+    }
+    // Si el usuario es Vendedor / Empleado, redirige a su panel
+    if (auth()->user()->rol === 'Vendedor') {
+        return redirect()->route('empleado.dashboard');
     }
     return view('dashboard'); // Vista para clientes regulares
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -49,7 +55,35 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // 12. Mi Perfil de Administrador
     Route::get('perfil', [PerfilController::class, 'index'])->name('perfil.index');
     Route::put('perfil', [PerfilController::class, 'update'])->name('perfil.update');
+});
 
+// GRUPO PANEL OPERATIVO DE EMPLEADOS / VENDEDORES
+Route::middleware(['auth', 'verified', 'vendedor'])
+    ->prefix('empleado')
+    ->name('empleado.')
+    ->group(function () {
+        Route::get('/dashboard', [EmpleadoDashboardController::class, 'index'])
+            ->name('dashboard');
+        Route::get('/ventas', [VentaController::class, 'index'])
+            ->name('ventas.index');
+
+        Route::get('/ventas/create', [VentaController::class, 'create'])
+            ->name('ventas.create');
+
+        Route::post('/ventas', [VentaController::class, 'store'])
+            ->name('ventas.store');
+
+        Route::get('/ventas/{id}', [VentaController::class, 'show'])
+            ->name('ventas.show');
+
+        Route::get('/productos', [ProductoController::class, 'index'])
+            ->name('productos.index');
+
+        Route::get('/stock', [StockController::class, 'index'])
+            ->name('stock.index');
+
+        Route::get('/promociones', [EmpleadoPromocionController::class, 'index'])
+            ->name('promociones.index');
 });
 // Ruta pública: Catálogo filtrado por categoría
 use App\Http\Controllers\CatalogoController;
@@ -77,6 +111,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 });
 
 require __DIR__.'/auth.php';

@@ -102,12 +102,12 @@
 
                             {{-- Columna Rol --}}
                             <td class="py-4 px-6">
-                                @if($usr->rol === 'Admin')
-                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-700">admin</span>
-                                @elseif($usr->rol === 'vendedor')
-                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-700">vendedor</span>
+                                    @if(strtolower($usr->rol) === 'admin')
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-700">Administrador</span>
+                                @elseif(strtolower($usr->rol) === 'vendedor' || strtolower($usr->rol) === 'empleado')
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-700">Empleado</span>
                                 @else
-                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-purple-100 text-purple-700">cliente</span>
+                                    <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-purple-100 text-purple-700">Cliente</span>
                                 @endif
                             </td>
 

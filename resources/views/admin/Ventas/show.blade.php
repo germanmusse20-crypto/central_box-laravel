@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(auth()->user()->rol === 'Vendedor' ? 'layouts.empleado' : 'layouts.admin')
 
 @section('titulo', 'Factura #' . $venta->id_venta . ' - Central Box')
 
@@ -7,7 +7,7 @@
 
     <!-- BOTONES DE ACCIÓN -->
     <div class="flex items-center justify-between no-print">
-        <a href="{{ route('admin.ventas.index') }}" class="text-xs font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
+        <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" class="text-xs font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">
             <i class="fa-solid fa-arrow-left"></i> Volver al historial
         </a>
         <button onclick="window.print()" class="bg-gray-900 hover:bg-black text-white text-xs font-bold py-2.5 px-5 rounded-xl transition flex items-center gap-2 shadow-sm">

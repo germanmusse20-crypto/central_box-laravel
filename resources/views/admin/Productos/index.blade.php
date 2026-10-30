@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(auth()->user()->rol === 'Vendedor' ? 'layouts.empleado' : 'layouts.admin')
 
 @section('titulo', 'Productos e Insumos - Central Box')
 
@@ -15,12 +15,15 @@
             <p class="text-xs text-gray-500 mt-0.5">Controla precios de venta, stock disponible y niveles de reorden</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.stock.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold py-2.5 px-4 rounded-xl transition">
+            <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.stock.index' : 'admin.stock.index') }}"
+            class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold py-2.5 px-4 rounded-xl transition">
                 <i class="fa-solid fa-boxes-stacked"></i> Ver Kardex
             </a>
-            <a href="{{ route('admin.productos.create') }}" class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-emerald-500/20">
-                <i class="fa-solid fa-plus"></i> Nuevo Producto
-            </a>
+            @if (auth()->user()->rol === 'Admin')
+    <a href="{{ route('admin.productos.create') }}" class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-emerald-500/20">
+        <i class="fa-solid fa-plus"></i> Nuevo Producto
+    </a>
+@endif
         </div>
     </div>
 
@@ -83,19 +86,24 @@
                                 @endif
                             </td>
                             <td class="py-4 px-6 text-center">
-                                <div class="inline-flex items-center gap-2">
-                                    <a href="{{ route('admin.productos.edit', $prod->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este producto?');" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition" title="Eliminar">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+    @if (auth()->user()->rol === 'Admin')
+        <div class="inline-flex items-center gap-2">
+            <a href="{{ route('admin.productos.edit', $prod->id) }}" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Editar">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+
+            <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este producto?');" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition" title="Eliminar">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </form>
+        </div>
+    @else
+        <span class="text-xs text-gray-400">Solo consulta</span>
+    @endif
+</td>
                         </tr>
                     @empty
                         <tr>

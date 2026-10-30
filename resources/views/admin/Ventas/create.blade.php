@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(auth()->user()->rol === 'Vendedor' ? 'layouts.empleado' : 'layouts.admin')
 
 @section('titulo', 'Nueva Venta Online - Central Box')
 
@@ -14,7 +14,7 @@
             <h2 class="text-2xl font-black text-gray-900">Nueva Venta Online</h2>
             <p class="text-xs text-gray-500 mt-0.5">Registra compras en mostrador o pedidos en línea con descuento de stock en tiempo real</p>
         </div>
-        <a href="{{ route('admin.ventas.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold py-2.5 px-4 rounded-xl transition">
+        <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-bold py-2.5 px-4 rounded-xl transition">
             <i class="fa-solid fa-receipt"></i> Ver Historial
         </a>
     </div>
@@ -69,7 +69,7 @@
             </h3>
 
             <!-- FORMULARIO DE ENVÍO AL CONTROLADOR -->
-            <form action="{{ route('admin.ventas.store') }}" method="POST" class="mt-4 space-y-4">
+            <form action="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" method="POST" class="mt-4 space-y-4">
                 @csrf
 
                 <!-- Seleccionar Cliente -->

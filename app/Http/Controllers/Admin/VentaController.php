@@ -20,8 +20,8 @@ class VentaController extends Controller
     {
         $query = Venta::with(['cliente', 'vendedor'])->orderBy('id_venta', 'desc');
 
-        if ($request->filled('fecha')) {
-            $query->whereDate('fecha', $request->fecha);
+        if (auth()->user()->rol === 'Vendedor') {
+    $query->where('id_usuario', auth()->id());
         }
 
         $ventas = $query->paginate(10);
@@ -139,7 +139,14 @@ class VentaController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.ventas.show', $venta->id_venta)->with('success', '¡Venta registrada con éxito!');
+            return redirect()
+                ->route(
+                    auth()->user()->rol === 'Vendedor'
+                        ? 'empleado.ventas.show'
+                        : 'admin.ventas.show',
+                    $venta->id_venta
+                )
+                ->with('success', '¡Venta registrada con éxito!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -150,7 +157,13 @@ class VentaController extends Controller
     // Ver Detalle / Factura de la Venta
     public function show($id)
     {
-        $venta = Venta::with(['cliente', 'vendedor', 'detalles.producto'])->findOrFail($id);
-        return view('admin.ventas.show', compact('venta'));
+        $query = Venta::with(['cliente', 'vendedor', 'detalles.producto'])
+    ->where('id_venta', $id);
+
+    if (auth()->user()->rol === 'Vendedor') {
+        $query->where('id_usuario', auth()->id());
+    }
+
+    $venta = $query->firstOrFail();
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(auth()->user()->rol === 'Vendedor' ? 'layouts.empleado' : 'layouts.admin')
 
 @section('titulo', 'Historial de Ventas - Central Box')
 
@@ -14,7 +14,7 @@
             <h2 class="text-2xl font-black text-gray-900">Historial de Ventas</h2>
             <p class="text-xs text-gray-500 mt-0.5">Auditoría de ventas generadas, estados de orden y comprobantes fiscales</p>
         </div>
-        <a href="{{ route('admin.ventas.create') }}" class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-emerald-500/20">
+        <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-emerald-500/20">
             <i class="fa-solid fa-cart-plus"></i> Nueva Venta
         </a>
     </div>
@@ -50,7 +50,7 @@
                                 </span>
                             </td>
                             <td class="py-4 px-6 text-center">
-                                <a href="{{ route('admin.ventas.show', $vta->id_venta) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-emerald-50 hover:text-emerald-700 text-gray-700 rounded-lg text-xs font-bold transition">
+                                <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-emerald-50 hover:text-emerald-700 text-gray-700 rounded-lg text-xs font-bold transition">
                                     <i class="fa-solid fa-file-invoice"></i> Ver Recibo
                                 </a>
                             </td>

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends(auth()->user()->rol === 'Vendedor' ? 'layouts.empleado' : 'layouts.admin')
 
 @section('titulo', 'Kardex y Gestión de Stock - Central Box')
 
@@ -11,8 +11,15 @@
             <div class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
                 <i class="fa-solid fa-boxes-stacked text-[#00C897]"></i> Control de Existencias
             </div>
-            <h2 class="text-2xl font-black text-gray-900">Gestión de Stock & Kardex</h2>
-            <p class="text-xs text-gray-500 mt-0.5">Realiza ajustes directos de inventario (Entradas por proveedor, Salidas o Mermas) con trazabilidad</p>
+            <<h2 class="text-2xl font-black text-gray-900">
+                {{ auth()->user()->rol === 'Vendedor' ? 'Consulta de inventario' : 'Gestión de Stock & Kardex' }}
+            </h2>
+
+            <p class="text-xs text-gray-500 mt-0.5">
+                {{ auth()->user()->rol === 'Vendedor'
+                    ? 'Consulta las existencias y los movimientos recientes de productos.'
+                    : 'Realiza ajustes directos de inventario con trazabilidad.' }}
+            </p>
         </div>
     </div>
 
@@ -32,10 +39,15 @@
                         <h4 class="font-bold text-gray-900 text-sm leading-tight">{{ $prod->nombre }}</h4>
                         <p class="text-[11px] text-gray-500 mt-1">Mínimo sugerido: {{ $prod->stock_minimo }} unidades</p>
                     </div>
-
+                    @if (auth()->user()->rol === 'Admin')
                     <!-- FORMULARIO DE AJUSTE RÁPIDO -->
                     <form action="{{ route('admin.stock.ajustar', $prod->id) }}" method="POST" class="mt-4 pt-3 border-t border-gray-200/60 space-y-3">
                         @csrf
+                        @else
+                            <p class="mt-4 border-t border-gray-200/60 pt-3 text-xs text-gray-400">
+                                Consulta de inventario: no puedes modificar las existencias.
+                            </p>
+                        @endif
                         <div class="grid grid-cols-2 gap-2">
                             <select name="tipo" required class="rounded-xl border-gray-200 text-xs py-1.5 focus:border-[#00C897] focus:ring-[#00C897]">
                                 <option value="entrada">+ Entrada</option>
