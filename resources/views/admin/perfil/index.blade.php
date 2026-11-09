@@ -126,7 +126,7 @@
             {{-- Botones de Acción al pie --}}
             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                 <div class="text-xs text-gray-400">
-                    <i class="fa-solid fa-shield-halved text-[#00C897]"></i> Tus datos están protegidos por Central Box
+                    <i class="fa-solid fa-shield-halved text-[#00C897]"></i> Tus datos están protegidos y cifrados por Central Box
                 </div>
                 <button type="submit"
                         class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-6 rounded-xl transition shadow-md shadow-emerald-500/20 active:scale-95">

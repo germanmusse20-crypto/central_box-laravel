@@ -62,9 +62,28 @@
                     @endif
 
                     {{-- Imagen del producto --}}
-                    <div class="contenedor-img">
+                    <div class="contenedor-img" style="position: relative;">
                         <img src="{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}"
                              alt="{{ $prod->nombre }}">
+                        <div class="logo-carrito-tarjeta"
+                             id="logo-prod-{{ $prod->id }}"
+                             style="position: absolute; top: 8px; right: 8px;
+                                    width: 36px; height: 36px;
+                                    opacity: 0; transform: translateX(-20px);
+                                    transition: all 0.4s ease;
+                                    pointer-events: auto; cursor: pointer;"
+                             onclick="agregarAlCarrito('{{ $prod->id }}', '{{ $prod->nombre }}', {{ $prod->precio }}, '{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}'); mostrarLogo('{{ $prod->id }}');"
+                             title="Agregar otra unidad">
+                            <img src="{{ asset('images/Icono.png') }}" alt="Central Box"
+                                 style="width: 100%; height: 100%; object-fit: contain;">
+                            <span id="cant-prod-{{ $prod->id }}"
+                                  style="position: absolute; top: -6px; right: -6px;
+                                         background: #00C897; color: white;
+                                         font-size: 10px; font-weight: 800;
+                                         width: 16px; height: 16px; border-radius: 50%;
+                                         display: none; align-items: center;
+                                         justify-content: center; line-height: 1;">0</span>
+                        </div>
                     </div>
 
                     {{-- Información del producto --}}
@@ -80,7 +99,7 @@
                                         '{{ $prod->nombre }}',
                                         {{ $prod->precio }},
                                         '{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}'
-                                    )"
+                                    ); mostrarLogo('{{ $prod->id }}');"
                                     title="Añadir al carrito">
                                 🛒
                             </button>
@@ -114,3 +133,25 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script>
+    // ===== LOGO ANIMADO EN TARJETA (catalogo) =====
+    function mostrarLogo(idProducto) {
+        const logoDiv      = document.getElementById('logo-prod-' + idProducto);
+        const contadorSpan = document.getElementById('cant-prod-' + idProducto);
+
+        if (!logoDiv || !contadorSpan) return;
+
+        const carrito  = obtenerCarrito();
+        const item     = carrito.find(p => String(p.id) === String(idProducto));
+        const cantidad = item ? item.cantidad : 0;
+
+        contadorSpan.textContent   = cantidad;
+        contadorSpan.style.display = cantidad > 0 ? 'flex' : 'none';
+
+        logoDiv.style.opacity   = '1';
+        logoDiv.style.transform = 'translateX(0)';
+    }
+</script>
+@endpush

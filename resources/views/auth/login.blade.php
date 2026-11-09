@@ -102,29 +102,41 @@
         /* Bloque central del logo */
         .brand-center-box {
             text-align: center;
-            margin: 20px 0;
+            margin: 130px 0;
             z-index: 2;
         }
 
-        .brand-logo-row {
+                .brand-logo-row {
             display: inline-flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 8px;
+            text-decoration: none; /* Quita el subrayado de enlace */
+            cursor: pointer;
+            transition: transform 0.25s ease; /* Transición muy suave */
+        }
+
+        /* Acercamiento sutil al pasar el cursor */
+        .brand-logo-row:hover {
+            transform: scale(1.03);
+        }
+
+        /* Acercamiento al hacer clic */
+        .brand-logo-row:active {
+            transform: scale(1.08);
         }
 
         .brand-logo-img {
-            width: 48px;
-            height: 48px;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+            width: 90px;
+            height: 90px;
+
         }
 
         .brand-logo-text {
-            font-size: 26px;
+            font-size: 38px;
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: -0.5px;
+            
         }
 
         .brand-logo-text span {
@@ -132,7 +144,7 @@
         }
 
         .brand-tagline {
-            font-size: 14px;
+            font-size: 16px;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
         }
@@ -381,18 +393,12 @@
         <div class="login-brand-col">
             <div class="circle-decor-1"></div>
             <div class="circle-decor-2"></div>
-
-            {{-- 1. Botón de retorno al Inicio --}}
-            <a href="/" class="btn-volver">
-                ← Volver al inicio
-            </a>
-
-            {{-- 2. Logo e Identidad --}}
+                        {{-- 2. Logo e Identidad con enlace al inicio --}}
             <div class="brand-center-box">
-                <div class="brand-logo-row">
+                <a href="/" class="brand-logo-row" title="Volver al inicio">
                     <img src="{{ asset('images/Icono.png') }}" alt="Logo Central Box" class="brand-logo-img">
                     <span class="brand-logo-text">central <span>box</span></span>
-                </div>
+                </a>
                 <p class="brand-tagline">Tu tienda virtual de confianza</p>
             </div>
 
@@ -524,6 +530,37 @@
                 passwordInput.type = 'password';
             }
         }
+    </script>
+
+    {{-- Restaurar carrito pendiente después del login --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var pendiente = sessionStorage.getItem('central_box_carrito_pendiente');
+            if (pendiente) {
+                // El carrito pendiente ya está en sessionStorage.
+                // Se restaurará automáticamente cuando el layout público cargue
+                // en la página siguiente (welcome/catalogo) vía el script del navbar.
+                // Aquí solo lo copiamos también a localStorage para mayor seguridad.
+                try {
+                    var carritoGuardado = JSON.parse(pendiente);
+                    if (carritoGuardado && carritoGuardado.length > 0) {
+                        var carritoActual = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+                        carritoGuardado.forEach(function(itemGuardado) {
+                            var existe = carritoActual.find(function(i) {
+                                return String(i.id) === String(itemGuardado.id);
+                            });
+                            if (existe) {
+                                existe.cantidad = Math.max(existe.cantidad, itemGuardado.cantidad);
+                            } else {
+                                carritoActual.push(itemGuardado);
+                            }
+                        });
+                        localStorage.setItem('central_box_carrito', JSON.stringify(carritoActual));
+                    }
+                } catch(e) {}
+                // No borramos el sessionStorage aquí; lo borra el navbar al cargar la página de destino
+            }
+        });
     </script>
 
 </body>

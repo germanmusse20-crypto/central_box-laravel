@@ -8,17 +8,17 @@
     <!-- CABECERA -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
         <div>
-            <div class="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+            <div class="flex items-center gap-1 text-xs font-bold text-gray-400 uppercase tracking-wider mb-5">
                 <i class="fa-solid fa-boxes-stacked text-[#00C897]"></i> Control de Existencias
             </div>
-            <<h2 class="text-2xl font-black text-gray-900">
-                {{ auth()->user()->rol === 'Vendedor' ? 'Consulta de inventario' : 'Gestión de Stock & Kardex' }}
+            <h2 class="text-2xl font-black text-gray-900">
+                {{ auth()->user()->rol === 'Vendedor' ? 'Consulta de inventario' : 'Gestión de Stock' }}
             </h2>
 
             <p class="text-xs text-gray-500 mt-0.5">
                 {{ auth()->user()->rol === 'Vendedor'
                     ? 'Consulta las existencias y los movimientos recientes de productos.'
-                    : 'Realiza ajustes directos de inventario con trazabilidad.' }}
+                    : 'Realiza ajustes directos de inventario.' }}
             </p>
         </div>
     </div>
@@ -78,7 +78,7 @@
     <!-- TABLA DE MOVIMIENTOS RECIENTES (KARDEX AUDITORÍA) -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="p-6 border-b border-gray-100">
-            <h3 class="font-bold text-gray-900 text-base">Auditoría de Movimientos (Kardex Reciente)</h3>
+            <h3 class="font-bold text-gray-900 text-base">Auditoría de Movimientos</h3>
             <p class="text-xs text-gray-500">Historial de entradas, salidas y motivos registrados en el sistema</p>
         </div>
 
@@ -118,7 +118,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="py-8 text-center text-gray-400">No hay movimientos registrados en el Kardex.</td>
+                            <td colspan="7" class="py-8 text-center text-gray-400">No hay movimientos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -42,18 +42,15 @@
                 Compra fácil, rápido y seguro desde la comodidad de tu hogar.
             </p>
 
-            {{-- Botón CTA --}}
-            <a href="#" style="
-                display: inline-flex; align-items: center; gap: 10px;
-                background: #00C897; color: white;
-                padding: 16px 32px; border-radius: 50px;
-                font-size: 16px; font-weight: 700; text-decoration: none;
-                box-shadow: 0 4px 15px rgba(0, 200, 151, 0.4);
-                transition: transform 0.2s;
-            "
-            onmouseover="this.style.transform='translateY(-2px)'"
-            onmouseout="this.style.transform='translateY(0)'">
-                🛒 Comenzar a Comprar
+            {{-- Botón CTA con animación interactiva de carrito --}}
+            <a href="#productos" class="btn-cta-comprar">
+                <span class="btn-carrito-escenario">
+                    <span class="icono-carrito-principal">🛒</span>
+                    <span class="mini-item mini-item-1">📦</span>
+                    <span class="mini-item mini-item-2">👕</span>
+                    <span class="mini-item mini-item-3">🥤</span>
+                </span>
+                <span>Comenzar a Comprar</span>
             </a>
         </div>
 
@@ -143,21 +140,75 @@
                     @else
                         <span class="badge-disponible" style="background:#fee2e2; color:#ef4444; border-color:rgba(239,68,68,0.2);">✕ AGOTADO</span>
                     @endif
-                    <div class="contenedor-img">
+                    <div class="contenedor-img" style="position: relative;">
                         <img src="{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}" alt="{{ $prod->nombre }}">
+                        <div class="logo-carrito-tarjeta"
+     id="logo-prod-{{ $prod->id }}"
+     style="position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 40px;
+            height: 40px;
+            opacity: 1;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            pointer-events: auto;
+            cursor: pointer;"
+     onclick="abrirModalProductoConDatos('{{ $prod->id }}', '{{ addslashes($prod->nombre) }}', {{ $prod->precio }}, '{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}');"
+     title="Ver/editar en carrito">
+
+    {{-- Logo de Central Box --}}
+    <img src="{{ asset('images/Icono.png') }}"
+         alt="Central Box"
+         style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));">
+
+    {{-- Contador de unidades encima del logo --}}
+    <span id="cant-prod-{{ $prod->id }}"
+          style="position: absolute;
+                 top: -6px;
+                 right: -6px;
+                 background: #00C897;
+                 color: white;
+                 font-size: 10px;
+                 font-weight: 800;
+                 width: 18px;
+                 height: 18px;
+                 border-radius: 50%;
+                 display: none;
+                 align-items: center;
+                 justify-content: center;
+                 line-height: 1;
+                 border: 2px solid white;
+                 box-shadow: 0 1px 4px rgba(0,0,0,0.15);">
+        0
+    </span>
+</div>
+
                     </div>
+
                                         <div class="info-producto">
                         <span class="categoria-tag">{{ $prod->categoria->nombre ?? 'TECNOLOGÍA' }}</span>
                         
                         {{-- Nombre a la izquierda y Botón al lado derecho --}}
                         <div class="fila-nombre-producto">
                             <h3 class="nombre-producto">{{ $prod->nombre }}</h3>
-                            <button type="button" 
-                                    class="btn-agregar-carrito" 
-                                    onclick="agregarAlCarrito('{{ $prod->id }}', '{{ $prod->nombre }}', {{ $prod->precio }}, '{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}')"
-                                    title="Añadir al carrito">
-                                🛒
-                            </button>
+
+<span class="mini-carrito-producto"
+      data-resumen-producto="{{ $prod->id }}"
+      style="display: none;">
+    <button type="button"
+            onclick="toggleModalCarrito()"
+            aria-label="Ver este producto en el carrito">
+        🛍️
+    </button>
+    <span data-cantidad-producto="{{ $prod->id }}">0</span>
+</span>
+
+<button type="button"
+        class="btn-agregar-carrito"
+        onclick="agregarAlCarrito('{{ $prod->id }}', '{{ $prod->nombre }}', {{ $prod->precio }}, '{{ $prod->imagen ? asset('images/' . $prod->imagen) : asset('images/cablehdmi.png') }}'); mostrarLogo('{{ $prod->id }}');"
+        title="Añadir al carrito">
+    🛒
+</button>
                         </div>
                         
                         <div class="pie-tarjeta">
@@ -169,174 +220,62 @@
             @empty
                 {{-- ⚪ ESTE BLOQUE SE EJECUTA SI LA BASE DE DATOS ESTÁ VACÍA --}}
 
-                {{-- TARJETA 1: Cable HDMI --}}
+                @php
+                $tarjetasEstaticas = [
+                    ['id'=>1,'nombre'=>'Cable HDMI 2m',    'cat'=>'TECNOLOGÍA', 'precio'=>'$ 23.000','stock'=>'10','img'=>'cablehdmi.png'],
+                    ['id'=>2,'nombre'=>'Memoria USB 64GB', 'cat'=>'TECNOLOGÍA', 'precio'=>'$ 23.000','stock'=>'15','img'=>'memoria.png'],
+                    ['id'=>3,'nombre'=>'Saco de frío',     'cat'=>'ROPA',       'precio'=>'$ 80.000','stock'=>'8', 'img'=>'saco.png'],
+                    ['id'=>4,'nombre'=>'Bóxer Python',     'cat'=>'ROPA',       'precio'=>'$ 50.000','stock'=>'12','img'=>'boxer.png'],
+                    ['id'=>5,'nombre'=>'Monster 500ml',    'cat'=>'BEBIDAS',    'precio'=>'$ 10.000','stock'=>'20','img'=>'bebida1.png'],
+                    ['id'=>6,'nombre'=>'Max 250ml',        'cat'=>'BEBIDAS',    'precio'=>'$ 6.000', 'stock'=>'25','img'=>'max.png'],
+                    ['id'=>7,'nombre'=>'Lapicero Sharpie', 'cat'=>'PAPELERÍA',  'precio'=>'$ 17.000','stock'=>'30','img'=>'lapicero.png'],
+                    ['id'=>8,'nombre'=>'Papel fotográfico','cat'=>'PAPELERÍA',  'precio'=>'$ 9.700', 'stock'=>'18','img'=>'papel.png'],
+                ];
+                @endphp
+                @foreach ($tarjetasEstaticas as $t)
                 <div class="tarjeta-producto">
                     <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/cablehdmi.png') }}" alt="Cable HDMI 2m">
+                    <div class="contenedor-img" style="position: relative;">
+                        <img src="{{ asset('images/' . $t['img']) }}" alt="{{ $t['nombre'] }}">
+                        {{-- Logo Central Box siempre visible --}}
+                        <div class="logo-carrito-tarjeta"
+                             id="logo-prod-{{ $t['id'] }}"
+                             style="position: absolute; top: 8px; right: 8px;
+                                    width: 40px; height: 40px;
+                                    opacity: 1;
+                                    transition: transform 0.2s ease, box-shadow 0.2s ease;
+                                    pointer-events: auto; cursor: pointer;"
+                             onclick="abrirModalProductoConDatos({{ $t['id'] }}, '{{ addslashes($t['nombre']) }}', {{ (int) str_replace(['.','$',' '], '', $t['precio']) }}, '{{ asset('images/' . $t['img']) }}');"
+                             title="Ver/editar en carrito">
+                            <img src="{{ asset('images/Icono.png') }}" alt="Central Box"
+                                 style="width: 100%; height: 100%; object-fit: contain;
+                                        filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));">
+                            <span id="cant-prod-{{ $t['id'] }}"
+                                  style="position: absolute; top: -6px; right: -6px;
+                                         background: #00C897; color: white;
+                                         font-size: 10px; font-weight: 800;
+                                         width: 18px; height: 18px; border-radius: 50%;
+                                         display: none; align-items: center;
+                                         justify-content: center; line-height: 1;
+                                         border: 2px solid white;
+                                         box-shadow: 0 1px 4px rgba(0,0,0,0.15);">0</span>
+                        </div>
                     </div>
                     <div class="info-producto">
-                        <span class="categoria-tag">TECNOLOGÍA</span>
+                        <span class="categoria-tag">{{ $t['cat'] }}</span>
                         <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Cable HDMI 2m</h3>
+                            <h3 class="nombre-producto">{{ $t['nombre'] }}</h3>
                             <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(1, 'Cable HDMI 2m', 23000, '{{ asset('images/cablehdmi.png') }}')"
-                                title="Añadir al carrito">🛒</button>
+                                    onclick="agregarAlCarrito({{ $t['id'] }}, '{{ $t['nombre'] }}', {{ (int) str_replace(['.','$',' '], '', $t['precio']) }}, '{{ asset('images/' . $t['img']) }}'); mostrarLogo({{ $t['id'] }});"
+                                    title="Añadir al carrito">🛒</button>
                         </div>
                         <div class="pie-tarjeta">
-                            <span class="precio">$ 23.000</span>
-                            <span class="stock">10 disponibles</span>
+                            <span class="precio">{{ $t['precio'] }}</span>
+                            <span class="stock">{{ $t['stock'] }} disponibles</span>
                         </div>
                     </div>
                 </div>
-
-                {{-- TARJETA 2: Memoria USB --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/memoria.png') }}" alt="Memoria USB 64GB">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">TECNOLOGÍA</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Memoria USB 64GB</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(2, 'Memoria USB 64GB', 23000, '{{ asset('images/memoria.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 23.000</span>
-                            <span class="stock">15 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 3: Saco de frío --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/saco.png') }}" alt="Saco de frío">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">ROPA</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Saco de frío</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(3, 'Saco de frío', 80000, '{{ asset('images/saco.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 80.000</span>
-                            <span class="stock">8 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 4: Bóxer Python --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/boxer.png') }}" alt="Bóxer Python">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">ROPA</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Bóxer Python</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(4, 'Bóxer Python', 50000, '{{ asset('images/boxer.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 50.000</span>
-                            <span class="stock">12 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 5: Monster 500ml --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/bebida1.png') }}" alt="Monster 500ml">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">BEBIDAS</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Monster 500ml</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(5, 'Monster 500ml', 10000, '{{ asset('images/bebida1.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 10.000</span>
-                            <span class="stock">20 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 6: Max 250ml --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/max.png') }}" alt="Max 250ml">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">BEBIDAS</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Max 250ml</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(6, 'Max 250ml', 6000, '{{ asset('images/max.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 6.000</span>
-                            <span class="stock">25 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 7: Lapicero Sharpie --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/lapicero.png') }}" alt="Lapicero Sharpie">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">PAPELERÍA</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Lapicero Sharpie</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(7, 'Lapicero Sharpie', 17000, '{{ asset('images/lapicero.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 17.000</span>
-                            <span class="stock">30 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- TARJETA 8: Papel fotográfico --}}
-                <div class="tarjeta-producto">
-                    <span class="badge-disponible">✓ DISPONIBLE</span>
-                    <div class="contenedor-img">
-                        <img src="{{ asset('images/papel.png') }}" alt="Papel fotográfico">
-                    </div>
-                    <div class="info-producto">
-                        <span class="categoria-tag">PAPELERÍA</span>
-                        <div class="fila-nombre-producto">
-                            <h3 class="nombre-producto">Papel fotográfico</h3>
-                            <button type="button" class="btn-agregar-carrito"
-                                onclick="agregarAlCarrito(8, 'Papel fotográfico', 9700, '{{ asset('images/papel.png') }}')"
-                                title="Añadir al carrito">🛒</button>
-                        </div>
-                        <div class="pie-tarjeta">
-                            <span class="precio">$ 9.700</span>
-                            <span class="stock">18 disponibles</span>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             @endforelse {{-- 👈 AQUÍ CIERRA EL FORELSE DE PRODUCTOS --}}
 
         </div> {{-- 👈 Cierra la cuadrícula grid --}}
@@ -769,6 +708,113 @@
 </footer>
 
 <style>
+    /* =========================================================
+       BOTÓN HERO: COMENZAR A COMPRAR CON ANIMACIÓN DE CARRITO
+       ========================================================= */
+    .btn-cta-comprar {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: #00C897;
+        color: #ffffff;
+        padding: 16px 34px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 4px 18px rgba(0, 200, 151, 0.35);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        cursor: pointer;
+    }
+
+    .btn-cta-comprar:hover {
+        background: #00b386;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 200, 151, 0.45);
+    }
+
+    .btn-cta-comprar:active {
+        transform: translateY(-1px) scale(0.98);
+    }
+
+    /* Escenario donde habita el carrito y los mini productos */
+    .btn-carrito-escenario {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Carrito principal */
+    .icono-carrito-principal {
+        font-size: 20px;
+        display: inline-block;
+        transition: transform 0.2s ease;
+    }
+
+    /* Al pasar el cursor, el carrito se alegra y hace un suave vaivén receptor */
+    .btn-cta-comprar:hover .icono-carrito-principal {
+        animation: reboteCarrito 0.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes reboteCarrito {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(-8deg) scale(1.12); }
+        100% { transform: rotate(8deg) scale(1.08); }
+    }
+
+    /* Mini productos que caen dentro del carrito */
+    .mini-item {
+        position: absolute;
+        font-size: 13px;
+        opacity: 0;
+        pointer-events: none;
+        top: -4px;
+        left: 2px;
+    }
+
+    /* Entrada escalonada de productos en cascada al hacer hover */
+    .btn-cta-comprar:hover .mini-item-1 {
+        animation: entrarAlCarrito 1.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        animation-delay: 0s;
+    }
+
+    .btn-cta-comprar:hover .mini-item-2 {
+        animation: entrarAlCarrito 1.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        animation-delay: 0.4s;
+    }
+
+    .btn-cta-comprar:hover .mini-item-3 {
+        animation: entrarAlCarrito 1.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        animation-delay: 0.8s;
+    }
+
+    /* Curva parabólica: el producto nace arriba a la izquierda, vuela hacia el carrito y cae adentro */
+    @keyframes entrarAlCarrito {
+        0% {
+            transform: translate(-14px, -22px) scale(0.4) rotate(-30deg);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+            transform: translate(-6px, -14px) scale(0.9) rotate(-10deg);
+        }
+        60% {
+            opacity: 1;
+            transform: translate(2px, -3px) scale(0.85) rotate(15deg);
+        }
+        85% {
+            opacity: 0.85;
+            transform: translate(3px, 3px) scale(0.4) rotate(0deg);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(3px, 7px) scale(0.2) rotate(10deg);
+        }
+    }
         /* =========================================
        ESTILOS CTA REGISTRO & FOOTER
        ========================================= */
@@ -1082,7 +1128,7 @@
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
         border-radius: 18px;
-        overflow: hidden;
+        overflow: visible; /* cambiado de hidden para que el logo absoluto reciba clics */
         position: relative;
         display: flex;
         flex-direction: column;
@@ -1124,6 +1170,7 @@
         justify-content: center;
         padding: 24px 20px 10px;
         background: #ffffff;
+        overflow: visible; /* permite que el logo absoluto reciba clics */
     }
 
     .contenedor-img img {
@@ -1131,6 +1178,15 @@
         max-width: 100%;
         object-fit: contain;
         transition: transform 0.3s ease;
+    }
+
+    /* El img dentro del logo animado NO debe heredar los estilos de .contenedor-img img */
+    .logo-carrito-tarjeta img {
+        max-height: none;
+        max-width: none;
+        width: 100%;
+        height: 100%;
+        transition: none;
     }
 
     .tarjeta-producto:hover .contenedor-img img {
@@ -1256,12 +1312,13 @@
         height: 380px;
         overflow: hidden;         /* 🔑 Corta todo lo que salga a los lados */
         perspective: 1200px;       /* 🔑 Habilita la profundidad 3D */
+        -webkit-perspective: 1200px;
         border-radius: 18px;
         background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
         border: 1px solid #e2e8f0;
     }
 
-    /* 4. Tarjeta individual de cada producto (Apiladas en el centro) */
+    /* 4. Tarjeta individual del producto (Vitrina 3D) */
     .pasarela-card {
         position: absolute;
         top: 0;
@@ -1274,7 +1331,14 @@
         justify-content: center;
         padding: 24px 20px;
         box-sizing: border-box;
-        transform-style: preserve-3d; /* Permite rotaciones 3D a sus hijos */
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+        transform-style: preserve-3d;
+        -webkit-transform-style: preserve-3d;
+        opacity: 0;
+        pointer-events: none;
+        animation: pasarelaMaestra56s 56s ease-in-out infinite;
     }
 
     /* 5. Caja y sombra de la imagen */
@@ -1336,46 +1400,52 @@
             max-width: 100%;
         }
     }
-    /* Ocultamos todas las tarjetas por defecto para que no se superpongan */
-    .pasarela-card {
-        opacity: 0;
-        pointer-events: none;
-    }
-
         /* =========================================================
        COREOGRAFÍA MAESTRA INFINITA: 8 PRODUCTOS x 7s = 56s
        ========================================================= */
 
     @keyframes pasarelaMaestra56s {
-        /* FASE 1: ENTRADA (1.5s -> 0% al 2.68%) */
+        /* FASE 1: ENTRADA (1.5s -> 0% al 2.68%) - Desliza con suavidad desde la izquierda */
         0% {
-            transform: translateX(-120%) rotateY(0deg);
+            transform: translateX(-120%) scale(0.92);
             opacity: 0;
             pointer-events: none;
         }
         2.68% {
-            transform: translateX(0) rotateY(0deg);
+            transform: translateX(0) scale(1) rotateY(0deg);
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* FASE 2: ROTACIÓN 360° EN EL CENTRO (4.0s -> 2.68% al 9.82%) */
+        /* FASE 2: EXHIBICIÓN 3D EN EL CENTRO (4.0s -> 2.68% al 9.82%) */
+        /* 🔑 Los textos se leen 100% al derecho en todo momento */
+        /* Sutil balanceo y levitación 3D de vitrina sin girar en espejo */
+        4.8% {
+            transform: translateX(0) translateY(-7px) rotateY(-8deg) scale(1.02);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        7.5% {
+            transform: translateX(0) translateY(-7px) rotateY(8deg) scale(1.02);
+            opacity: 1;
+            pointer-events: auto;
+        }
         9.82% {
-            transform: translateX(0) rotateY(360deg);
+            transform: translateX(0) translateY(0) rotateY(0deg) scale(1);
             opacity: 1;
             pointer-events: auto;
         }
 
         /* FASE 3: SALIDA HACIA LA DERECHA (1.5s -> 9.82% al 12.50%) */
         12.50% {
-            transform: translateX(120%) rotateY(360deg);
+            transform: translateX(120%) scale(0.92);
             opacity: 0;
             pointer-events: none;
         }
 
         /* FASE 4: ESPERA TRAS BAMBALINAS (49s restantes -> 12.51% al 100%) */
         12.51%, 100% {
-            transform: translateX(-120%) rotateY(0deg);
+            transform: translateX(-120%) scale(0.92);
             opacity: 0;
             pointer-events: none;
         }
@@ -1561,14 +1631,14 @@
                 },
             @endforeach
         @else
-            { id: 1, nombre: "Monster 500ml", categoria: "BEBIDAS", precio: 10000, stock: 20, imagen: "{{ asset('images/bebida1.png') }}" },
-            { id: 2, nombre: "Max 250ml", categoria: "BEBIDAS", precio: 6000, stock: 25, imagen: "{{ asset('images/max.png') }}" },
-            { id: 3, nombre: "Lapicero Sharpie", categoria: "PAPELERÍA", precio: 17000, stock: 30, imagen: "{{ asset('images/lapicero.png') }}" },
-            { id: 4, nombre: "Papel fotográfico", categoria: "PAPELERÍA", precio: 9700, stock: 18, imagen: "{{ asset('images/papel.png') }}" },
-            { id: 5, nombre: "Saco de frío", categoria: "ROPA", precio: 80000, stock: 8, imagen: "{{ asset('images/saco.png') }}" },
-            { id: 6, nombre: "Bóxer Python", categoria: "ROPA", precio: 50000, stock: 12, imagen: "{{ asset('images/boxer.png') }}" },
-            { id: 7, nombre: "Cable HDMI 2m", categoria: "TECNOLOGÍA", precio: 23000, stock: 10, imagen: "{{ asset('images/cablehdmi.png') }}" },
-            { id: 8, nombre: "Memoria USB 64GB", categoria: "TECNOLOGÍA", precio: 23000, stock: 15, imagen: "{{ asset('images/memoria.png') }}" }
+            { id: 1, nombre: "Cable HDMI 2m",    categoria: "TECNOLOGÍA", precio: 23000, stock: 10, imagen: "{{ asset('images/cablehdmi.png') }}" },
+            { id: 2, nombre: "Memoria USB 64GB", categoria: "TECNOLOGÍA", precio: 23000, stock: 15, imagen: "{{ asset('images/memoria.png') }}" },
+            { id: 3, nombre: "Saco de frío",     categoria: "ROPA",       precio: 80000, stock: 8,  imagen: "{{ asset('images/saco.png') }}" },
+            { id: 4, nombre: "Bóxer Python",     categoria: "ROPA",       precio: 50000, stock: 12, imagen: "{{ asset('images/boxer.png') }}" },
+            { id: 5, nombre: "Monster 500ml",    categoria: "BEBIDAS",    precio: 10000, stock: 20, imagen: "{{ asset('images/bebida1.png') }}" },
+            { id: 6, nombre: "Max 250ml",        categoria: "BEBIDAS",    precio: 6000,  stock: 25, imagen: "{{ asset('images/max.png') }}" },
+            { id: 7, nombre: "Lapicero Sharpie", categoria: "PAPELERÍA",  precio: 17000, stock: 30, imagen: "{{ asset('images/lapicero.png') }}" },
+            { id: 8, nombre: "Papel fotográfico",categoria: "PAPELERÍA",  precio: 9700,  stock: 18, imagen: "{{ asset('images/papel.png') }}" }
         @endif
     ];
     // Iconos asociados a cada categoría
@@ -1656,5 +1726,345 @@
             forzarCerrarModalCategoria();
         }
     });
+
+    // ===== LOGO ANIMADO EN TARJETA =====
+    // ===== SINCRONIZA EL CONTADOR DEL LOGO CON EL CARRITO =====
+    function mostrarLogo(idProducto) {
+        var logoDiv      = document.getElementById('logo-prod-' + idProducto);
+        var contadorSpan = document.getElementById('cant-prod-' + idProducto);
+        if (!logoDiv || !contadorSpan) return;
+
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        var item    = null;
+        for (var i = 0; i < carrito.length; i++) {
+            if (String(carrito[i].id) === String(idProducto)) { item = carrito[i]; break; }
+        }
+        var cantidad = item ? item.cantidad : 0;
+
+        // Actualiza el contador: visible si hay unidades, oculto si no hay
+        contadorSpan.textContent   = cantidad;
+        contadorSpan.style.display = cantidad > 0 ? 'flex' : 'none';
+
+        // El logo siempre queda visible (ya no se oculta)
+        logoDiv.style.opacity   = '1';
+        logoDiv.style.transform = '';
+
+        // Efecto visual de "pulso" al agregar una unidad
+        logoDiv.style.transform = 'scale(1.3)';
+        setTimeout(function() { logoDiv.style.transform = ''; }, 220);
+    }
+
+    // ===== RESTAURA TODOS LOS CONTADORES AL CARGAR LA PÁGINA =====
+    document.addEventListener('DOMContentLoaded', function () {
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        carrito.forEach(function (item) {
+            var contadorSpan = document.getElementById('cant-prod-' + item.id);
+            if (contadorSpan && item.cantidad > 0) {
+                contadorSpan.textContent   = item.cantidad;
+                contadorSpan.style.display = 'flex';
+            }
+        });
+    });
+
+    // Cerrar modal categoría con ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (typeof forzarCerrarModalCategoria === 'function') forzarCerrarModalCategoria();
+        }
+    });
 </script>
+
+{{-- Script separado para el modal de edición (aislado del script principal) --}}
+<script>
+    // Nueva función: recibe los datos completos desde el onclick, sin depender de inventarioCentralBox
+    function abrirModalProductoConDatos(id, nombre, precio, imagen) {
+        var idProducto = String(id);
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        var item = null;
+        for (var i = 0; i < carrito.length; i++) {
+            if (String(carrito[i].id) === idProducto) {
+                item = carrito[i];
+                // Actualiza imagen/precio por si cambiaron (corrige datos corruptos de sesiones anteriores)
+                item.nombre = nombre;
+                item.precio = Number(precio);
+                item.imagen = imagen;
+                break;
+            }
+        }
+        if (!item) {
+            // No está en el carrito aún: lo agregamos con cantidad 1
+            carrito.push({ id: idProducto, nombre: nombre, precio: Number(precio), imagen: imagen, cantidad: 1 });
+            localStorage.setItem('central_box_carrito', JSON.stringify(carrito));
+            if (typeof guardarCarrito === 'function') guardarCarrito(carrito);
+            item = carrito[carrito.length - 1];
+        } else {
+            // Guarda la corrección de datos si los había corruptos
+            localStorage.setItem('central_box_carrito', JSON.stringify(carrito));
+        }
+        document.getElementById('modal-prod-img').src = item.imagen;
+        document.getElementById('modal-prod-img').alt = item.nombre;
+        document.getElementById('modal-prod-nombre').textContent = item.nombre;
+        document.getElementById('modal-prod-precio').textContent = '$ ' + Number(item.precio).toLocaleString('es-CO');
+        document.getElementById('modal-prod-cantidad').value = item.cantidad;
+        document.getElementById('modal-prod-total').textContent = '$ ' + (item.precio * item.cantidad).toLocaleString('es-CO');
+        document.getElementById('modal-editar-producto').dataset.idProducto = idProducto;
+        document.getElementById('modal-editar-overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        mostrarLogo(idProducto);
+    }
+
+    function abrirModalProducto(idProducto) {
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        var item = null;
+        for (var i = 0; i < carrito.length; i++) {
+            if (String(carrito[i].id) === String(idProducto)) {
+                item = carrito[i];
+                break;
+            }
+        }
+        if (!item) {
+            // Si el producto no está en el carrito todavía, buscamos sus datos en el inventario
+            // para poder mostrarlo en el modal y permitir agregarlo desde ahí
+            var infoProducto = null;
+            if (typeof inventarioCentralBox !== 'undefined') {
+                for (var j = 0; j < inventarioCentralBox.length; j++) {
+                    if (String(inventarioCentralBox[j].id) === String(idProducto)) {
+                        infoProducto = inventarioCentralBox[j];
+                        break;
+                    }
+                }
+            }
+            if (!infoProducto) return; // No hay datos suficientes para mostrar el modal
+
+            // Agregamos el producto al carrito con cantidad 1 y abrimos el modal
+            agregarAlCarrito(infoProducto.id, infoProducto.nombre, infoProducto.precio, infoProducto.imagen);
+            // Volvemos a buscar el item recién insertado
+            carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+            for (var k = 0; k < carrito.length; k++) {
+                if (String(carrito[k].id) === String(idProducto)) { item = carrito[k]; break; }
+            }
+            if (!item) return;
+        }
+        document.getElementById('modal-prod-img').src = item.imagen;
+        document.getElementById('modal-prod-img').alt = item.nombre;
+        document.getElementById('modal-prod-nombre').textContent = item.nombre;
+        document.getElementById('modal-prod-precio').textContent = '$ ' + Number(item.precio).toLocaleString('es-CO');
+        document.getElementById('modal-prod-cantidad').value = item.cantidad;
+        document.getElementById('modal-prod-total').textContent = '$ ' + (item.precio * item.cantidad).toLocaleString('es-CO');
+        document.getElementById('modal-editar-producto').dataset.idProducto = String(idProducto);
+        document.getElementById('modal-editar-overlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalProducto() {
+        document.getElementById('modal-editar-overlay').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    function cerrarSiEsFondo(event) {
+        if (event.target.id === 'modal-editar-overlay') cerrarModalProducto();
+    }
+
+    function actualizarTotalModal() {
+        var idProducto = document.getElementById('modal-editar-producto').dataset.idProducto;
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        var item = null;
+        for (var i = 0; i < carrito.length; i++) {
+            if (String(carrito[i].id) === String(idProducto)) { item = carrito[i]; break; }
+        }
+        if (!item) return;
+        var nuevaCantidad = parseInt(document.getElementById('modal-prod-cantidad').value) || 1;
+        document.getElementById('modal-prod-total').textContent = '$ ' + (item.precio * nuevaCantidad).toLocaleString('es-CO');
+    }
+
+    function guardarCantidadModal() {
+        var idProducto  = document.getElementById('modal-editar-producto').dataset.idProducto;
+        var nuevaCantidad = Math.max(1, parseInt(document.getElementById('modal-prod-cantidad').value) || 1);
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        for (var i = 0; i < carrito.length; i++) {
+            if (String(carrito[i].id) === String(idProducto)) {
+                carrito[i].cantidad = nuevaCantidad;
+                break;
+            }
+        }
+        localStorage.setItem('central_box_carrito', JSON.stringify(carrito));
+        if (typeof guardarCarrito === 'function') guardarCarrito(carrito);
+        mostrarLogo(idProducto);
+        cerrarModalProducto();
+
+        // Abrir el panel "Mi Carrito Central Box" automáticamente
+        var panelCarrito = document.getElementById('modal-carrito');
+        if (panelCarrito && panelCarrito.style.display !== 'flex') {
+            if (typeof toggleModalCarrito === 'function') toggleModalCarrito();
+        }
+    }
+
+    function eliminarProductoModal() {
+        var idProducto = document.getElementById('modal-editar-producto').dataset.idProducto;
+        var carrito = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+        carrito = carrito.filter(function(p) { return String(p.id) !== String(idProducto); });
+        localStorage.setItem('central_box_carrito', JSON.stringify(carrito));
+        if (typeof guardarCarrito === 'function') guardarCarrito(carrito);
+        var logoDiv      = document.getElementById('logo-prod-' + idProducto);
+        var contadorSpan = document.getElementById('cant-prod-' + idProducto);
+        if (logoDiv)      { logoDiv.style.opacity = '0'; logoDiv.style.transform = 'translateX(-20px)'; }
+        if (contadorSpan) { contadorSpan.style.display = 'none'; }
+        cerrarModalProducto();
+    }
+
+    function cambiarCantidad(delta) {
+        var input = document.getElementById('modal-prod-cantidad');
+        input.value = Math.max(1, (parseInt(input.value) || 1) + delta);
+        actualizarTotalModal();
+    }
+
+    // Comprar: guarda la cantidad actualizada y redirige al checkout / carrito principal
+    function comprarProductoModal() {
+        // Primero sincronizamos la cantidad que el usuario editó en el modal
+        guardarCantidadModal();
+        // Intentamos abrir el panel del carrito global si existe (layout.publico)
+        if (typeof toggleCarrito === 'function') {
+            toggleCarrito();
+        } else if (typeof abrirCarrito === 'function') {
+            abrirCarrito();
+        } else {
+            // Fallback: desplaza suavemente al header donde vive el ícono del carrito
+            var carritoBtn = document.querySelector('[onclick*="toggleCarrito"], [onclick*="abrirCarrito"], .btn-carrito-header, #btn-carrito');
+            if (carritoBtn) {
+                carritoBtn.click();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    }
+
+    // Alias para las tarjetas estaticas (misma logica que abrirModalProducto)
+    function abrirModalProductoEstatico(idProducto) {
+        abrirModalProducto(idProducto);
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') cerrarModalProducto();
+    });
+</script>
+
+{{-- ===== MODAL DE EDICIÓN DE PRODUCTO (se abre al clicar el logo en la tarjeta) ===== --}}
+<div id="modal-editar-overlay"
+     onclick="cerrarSiEsFondo(event)"
+     style="display: none;
+            position: fixed; inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;">
+
+    <div id="modal-editar-producto"
+         data-id-producto=""
+         style="background: #ffffff;
+                border-radius: 18px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+                border: 2px solid #00C897;
+                width: 340px;
+                max-width: 94vw;
+                font-family: 'Inter', sans-serif;
+                overflow: hidden;
+                animation: slideUpModal 0.25s ease;">
+
+        {{-- Cabecera --}}
+        <div style="background: #00C897; padding: 14px 18px;
+                    display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: white; font-weight: 700; font-size: 15px;">
+                🛒Producto(s) en tu carrito
+            </span>
+            <button onclick="cerrarModalProducto()"
+                    style="background: none; border: none; color: white;
+                           font-size: 20px; cursor: pointer; line-height: 1;">✕</button>
+        </div>
+
+        {{-- Cuerpo --}}
+        <div style="padding: 20px 20px 0;">
+
+            {{-- Imagen + nombre --}}
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+                <img id="modal-prod-img" src="" alt=""
+                     style="width: 64px; height: 64px; object-fit: contain;
+                            border-radius: 10px; border: 1.5px solid #e2e8f0; background: #f8fafc;">
+                <div>
+                    <p id="modal-prod-nombre"
+                       style="font-weight: 700; font-size: 14px; color: #0f172a; margin: 0 0 4px;"></p>
+                    <p id="modal-prod-precio"
+                       style="font-size: 13px; color: #00A86B; font-weight: 700; margin: 0;"></p>
+                </div>
+            </div>
+
+            {{-- Control de cantidad --}}
+            <div style="margin-bottom: 16px;">
+                <label style="font-size: 12px; font-weight: 600; color: #64748b;
+                               text-transform: uppercase; letter-spacing: 0.5px;
+                               display: block; margin-bottom: 8px;">
+                    Cantidad
+                </label>
+                <div style="display: flex; align-items: center; gap: 0;
+                             border: 1.5px solid #e2e8f0; border-radius: 10px;
+                             overflow: hidden; width: fit-content;">
+                    <button onclick="cambiarCantidad(-1)"
+                            style="width: 38px; height: 38px; background: #f1f5f9;
+                                   border: none; font-size: 18px; font-weight: 700;
+                                   color: #475569; cursor: pointer;">−</button>
+                    <input  id="modal-prod-cantidad"
+                            type="number" min="1" value="1"
+                            oninput="actualizarTotalModal()"
+                            style="width: 52px; height: 38px; border: none;
+                                   text-align: center; font-size: 15px; font-weight: 700;
+                                   color: #0f172a; outline: none;">
+                    <button onclick="cambiarCantidad(1)"
+                            style="width: 38px; height: 38px; background: #f1f5f9;
+                                   border: none; font-size: 18px; font-weight: 700;
+                                   color: #475569; cursor: pointer;">+</button>
+                </div>
+            </div>
+
+            {{-- Subtotal --}}
+            <div style="background: #f0fff8; border: 1px solid rgba(0,200,151,0.2);
+                        border-radius: 10px; padding: 10px 14px;
+                        display: flex; justify-content: space-between; align-items: center;
+                        margin-bottom: 18px;">
+                <span style="font-size: 13px; color: #64748b; font-weight: 500;">Subtotal:</span>
+                <span id="modal-prod-total"
+                      style="font-size: 16px; font-weight: 800; color: #00C897;">$ 0</span>
+            </div>
+        </div>
+
+        {{-- Botones de acción --}}
+        {{-- Eliminar + Guardar cambios --}}
+        <div style="padding: 0 20px 20px; display: flex; gap: 10px;">
+            <button onclick="eliminarProductoModal()"
+                    style="flex: 1; padding: 10px 0; background: #fee2e2;
+                           color: #ef4444; border: 1.5px solid #fca5a5;
+                           border-radius: 10px; font-size: 13px; font-weight: 700;
+                           cursor: pointer; transition: background 0.15s ease;"
+                    onmouseover="this.style.background='#fecaca';"
+                    onmouseout="this.style.background='#fee2e2';">
+                🗑️ Eliminar
+            </button>
+            <button onclick="guardarCantidadModal()"
+                    style="flex: 2; padding: 10px 0; background: #f0fdf4;
+                           color: #16a34a; border: 1.5px solid #86efac;
+                           border-radius: 10px; font-size: 13px; font-weight: 700;
+                           cursor: pointer; transition: background 0.15s ease;"
+                    onmouseover="this.style.background='#dcfce7';"
+                    onmouseout="this.style.background='#f0fdf4';">
+                ✅ Guardar cambios
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes slideUpModal {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
 @endsection

@@ -82,8 +82,10 @@
                 </a>
 
                 <a href="{{ route('empleado.ventas.index') }}" 
-                   class="nav-link-emp flex items-center gap-3 px-3 py-2.5 rounded-xl transition">
-                    <i class="fa-solid fa-clock-rotate-left w-5"></i> <span>Historial de ventas</span>
+                   onclick="this.querySelector('i').classList.add('animate-spin')"
+                   class="group nav-link-emp flex items-center gap-3 px-3 py-2.5 rounded-xl transition? 'nav-item-active' : '' }}">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-[#00C897] transition-transform duration-700 ease-in-out group-hover:rotate-[360deg]"></i> 
+                    <span>Historial de ventas</span>
                 </a>
 
                 <!-- 3. PRODUCTOS -->
@@ -135,28 +137,16 @@
     <div class="flex-1 flex flex-col min-w-0 min-h-screen">
         
         <!-- Topbar con Breadcrumb de la imagen -->
-        <header class="bg-white border-b border-gray-100 h-16 flex items-center justify-between px-8 sticky top-0 z-10 shadow-xs">
+        <header class="bg-white border-b border-gray-100 h-19 flex items-center justify-between px-8 sticky top-8 z-8 shadow-xs">
             
             {{-- Breadcrumb: central_box / Panel --}}
             <div class="flex items-center gap-3 text-sm">
-                <button class="text-gray-400 hover:text-gray-600 lg:hidden">
-                    <i class="fa-solid fa-bars text-lg"></i>
-                </button>
-                <span class="text-gray-400 font-medium">central_box</span>
-                <span class="text-gray-300">/</span>
-                <span class="text-gray-800 font-bold">Panel</span>
+                <span class="text-gray-300"></span>
+                <span class="text-gray-800 font-bold"></span>
             </div>
 
             {{-- Acciones rápidas a la derecha --}}
             <div class="flex items-center gap-2">
-                <a href="{{ route('empleado.ventas.create') }}" 
-                   class="w-9 h-9 rounded-xl border border-gray-200 text-gray-500 hover:text-[#00C897] hover:border-[#00C897] flex items-center justify-center transition"
-                   title="Nueva venta">
-                    <i class="fa-solid fa-plus text-xs"></i>
-                </a>
-                <div class="w-9 h-9 rounded-xl border border-gray-200 text-gray-500 flex items-center justify-center font-bold text-xs">
-                    <i class="fa-regular fa-user"></i>
-                </div>
             </div>
         </header>
 

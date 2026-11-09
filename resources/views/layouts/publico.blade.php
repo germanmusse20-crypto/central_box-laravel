@@ -22,4 +22,32 @@
     {{-- Scripts extra de cada página --}}
     @stack('scripts')
 </body>
+@push('scripts')
+<script>
+    function actualizarMiniCarritos() {
+        const carrito = obtenerCarrito();
+
+        document.querySelectorAll('[data-resumen-producto]').forEach((indicador) => {
+            const idProducto = indicador.dataset.resumenProducto;
+            const productoEnCarrito = carrito.find(
+                (item) => String(item.id) === String(idProducto)
+            );
+            const cantidad = indicador.querySelector('[data-cantidad-producto]');
+
+            if (!cantidad) {
+                return;
+            }
+
+            if (productoEnCarrito) {
+                cantidad.textContent = productoEnCarrito.cantidad;
+                indicador.style.display = 'inline-flex';
+            } else {
+                indicador.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', actualizarMiniCarritos);
+</script>
+@endpush
 </html>

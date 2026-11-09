@@ -7,7 +7,7 @@
 
     <div class="flex items-center justify-between">
         <div>
-            <h2 class="text-2xl font-black text-gray-900">Nuevo Producto / Insumo</h2>
+            <h2 class="text-2xl font-black text-gray-900">Agregar producto</h2>
             <p class="text-xs text-gray-500">Diligencia la información para registrar el producto en el catálogo</p>
         </div>
         <a href="{{ route('admin.productos.index') }}" class="text-xs font-bold text-gray-600 hover:text-gray-900 flex items-center gap-1">

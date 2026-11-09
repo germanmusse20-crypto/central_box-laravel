@@ -114,11 +114,22 @@
             z-index: 2;
         }
 
-        .brand-logo-row {
+                .brand-logo-row {
             display: inline-flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.25s ease;
+        }
+
+        .brand-logo-row:hover {
+            transform: scale(1.03);
+        }
+
+        .brand-logo-row:active {
+            transform: scale(1.08);
         }
 
         .brand-logo-img {
@@ -390,13 +401,12 @@
             {{-- Botón volver al inicio --}}
             <a href="/" class="btn-volver">← Volver al inicio</a>
 
-            {{-- Logo --}}
+            {{-- Logo con enlace al inicio --}}
             <div class="brand-center-box">
-                <div class="brand-logo-row">
-                    <img src="{{ asset('images/Icono.png') }}"
-                         alt="Logo Central Box" class="brand-logo-img">
+                <a href="/" class="brand-logo-row" title="Volver al inicio">
+                    <img src="{{ asset('images/Icono.png') }}" alt="Logo Central Box" class="brand-logo-img">
                     <span class="brand-logo-text">central <span>box</span></span>
-                </div>
+                </a>
                 <p class="brand-tagline">Crea tu cuenta y empieza a comprar</p>
             </div>
 
@@ -529,5 +539,32 @@
         </div>
 
     </div>
+
+    {{-- Restaurar carrito pendiente después del registro --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var pendiente = sessionStorage.getItem('central_box_carrito_pendiente');
+            if (pendiente) {
+                try {
+                    var carritoGuardado = JSON.parse(pendiente);
+                    if (carritoGuardado && carritoGuardado.length > 0) {
+                        var carritoActual = JSON.parse(localStorage.getItem('central_box_carrito')) || [];
+                        carritoGuardado.forEach(function(itemGuardado) {
+                            var existe = carritoActual.find(function(i) {
+                                return String(i.id) === String(itemGuardado.id);
+                            });
+                            if (existe) {
+                                existe.cantidad = Math.max(existe.cantidad, itemGuardado.cantidad);
+                            } else {
+                                carritoActual.push(itemGuardado);
+                            }
+                        });
+                        localStorage.setItem('central_box_carrito', JSON.stringify(carritoActual));
+                    }
+                } catch(e) {}
+            }
+        });
+    </script>
+
 </body>
 </html>

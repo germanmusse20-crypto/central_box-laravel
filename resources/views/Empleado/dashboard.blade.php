@@ -9,7 +9,7 @@
          1. BANNER HERO: CENTRO DE OPERACIONES
          ============================================ --}}
     <div class="relative overflow-hidden p-8 sm:p-10 text-white shadow-xl"
-     style="background: linear-gradient(135deg, #064e3b 0%, #047857 60%, #00C897 100%); border-radius: 24px;">
+     style="background-color: #064e3b; border-radius: 24px;">
         
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
