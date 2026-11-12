@@ -14,9 +14,7 @@
             <h2 class="text-2xl font-black text-gray-900">Historial de Ventas</h2>
             <p class="text-xs text-gray-500 mt-0.5">Auditoría de ventas generadas, estados de orden y comprobantes fiscales</p>
         </div>
-        <a href="{{ route(auth()->user()->rol === 'Vendedor' ? 'empleado.ventas.index' : 'admin.ventas.index') }}" class="inline-flex items-center gap-2 bg-[#00C897] hover:bg-[#009e77] text-white text-sm font-bold py-2.5 px-4 rounded-xl transition shadow-md shadow-emerald-500/20">
-            <i class="fa-solid fa-cart-plus"></i> Nueva Venta
-        </a>
+
     </div>
 
     <!-- TABLA DE VENTAS -->
