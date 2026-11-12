@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\UsuariosExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UsuarioController extends Controller
 {
@@ -77,8 +78,22 @@ class UsuarioController extends Controller
         $usuario->delete();
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
+    
     public function exportarExcel()
     {
         return Excel::download(new UsuariosExport, 'usuarios_central_box.xlsx');
+    }
+    public function exportarPdf()
+    {
+        $usuarios = User::orderBy('id', 'desc')->get();
+
+        // Cargamos la vista blade con los datos y configuramos tamaño carta horizontal o vertical
+        $pdf = Pdf::loadView('admin.usuarios.pdf', compact('usuarios'));
+
+        // Descarga directa con nombre formal
+        return $pdf->download('reporte_usuarios_central_box.pdf');
+        
+        // TIP: Si prefieres que se abra en una pestaña para vista previa, usa:
+        // return $pdf->stream('reporte_usuarios_central_box.pdf');
     }
 }

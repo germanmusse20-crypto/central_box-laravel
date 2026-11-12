@@ -54,9 +54,10 @@
             </a>
 
             {{-- Botón PDF --}}
-            <button class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition">
+            <a href="{{ route('admin.usuarios.exportar-pdf') }}"
+               class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 px-3 rounded-lg transition">
                 <i class="fa-solid fa-file-pdf"></i> PDF
-            </button>
+            </a>
         </div>
 
     </div>
