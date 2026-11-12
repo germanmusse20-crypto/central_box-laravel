@@ -78,7 +78,7 @@
                     <select name="id_cliente" required class="w-full rounded-xl border-gray-200 text-xs py-2 focus:border-[#00C897] focus:ring-[#00C897]">
                         <option value="">Seleccionar cliente</option>
                         @foreach($clientes as $cli)
-                            <option value="{{ $cli->id }}">{{ $cli->nombre }} ({{ $cli->email }})</option>
+                            <option value="{{ $cli->id }}">{{ $cli->nombre }}</option>
                         @endforeach
                     </select>
                 </div>

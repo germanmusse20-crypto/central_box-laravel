@@ -110,7 +110,7 @@
         /* Bloque central del logo */
         .brand-center-box {
             text-align: center;
-            margin: 20px 0;
+            margin: auto 0;
             z-index: 2;
         }
 
@@ -133,14 +133,14 @@
         }
 
         .brand-logo-img {
-            width: 48px;
-            height: 48px;
+            width: 28px;
+            height: 28px;
             object-fit: contain;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
         }
 
         .brand-logo-text {
-            font-size: 26px;
+            font-size: 16px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: -0.5px;
@@ -151,7 +151,7 @@
         }
 
         .brand-tagline {
-            font-size: 14px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
         }
@@ -397,9 +397,6 @@
         <div class="login-brand-col">
             <div class="circle-decor-1"></div>
             <div class="circle-decor-2"></div>
-
-            {{-- Botón volver al inicio --}}
-            <a href="/" class="btn-volver">← Volver al inicio</a>
 
             {{-- Logo con enlace al inicio --}}
             <div class="brand-center-box">

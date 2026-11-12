@@ -1,143 +1,228 @@
 <style>
-    /* Clase para los links de navegación */
-    .nav-link {
+    /* ========================================================
+       ESTILOS DEL NAVBAR PÚBLICO - CENTRAL BOX
+       Diseño limpio, moderno y orientado a conversión e-commerce
+       ======================================================== */
+
+    /* Enlaces generales del menú */
+    .cb-nav-link {
         text-decoration: none;
         font-weight: 500;
-        color: #555;
-        border: 2px solid #00C897;
-        border-radius: 8px;
-        padding: 2px 8px;
-        /* 🔑 ESTO es lo que permite la animación suave */
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-        /* Necesario para que transform funcione en links */
+        font-size: 15px;
+        color: #4b5563; /* Gris oscuro neutro */
+        padding: 8px 0;
+        transition: color 0.2s ease;
         display: inline-block;
     }
-    /* Clase para el link ACTIVO (Inicio) */
-    .nav-link-activo {
-        text-decoration: none;
-        font-weight: 600;
-        color: #00C897;
-        border: 2px solid #00C897;
-        border-radius: 8px;
-        padding: 2px 8px;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-        display: inline-block;
+
+    .cb-nav-link:hover {
+        color: #00C897; /* Verde representativo de Central Box */
     }
-    /* 🎯 Efecto al pasar el mouse por encima */
-    .nav-link:hover,
-    .nav-link-activo:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 16px rgba(0, 200, 151, 0.25);
-    }
-        /* 🛒 Ícono del Carrito en el Navbar */
-    .nav-carrito {
+
+    /* Enlace ACTIVO (Inicio) con barra indicadora inferior */
+    .cb-nav-link-activo {
         position: relative;
-        display: flex;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 15px;
+        color: #00C897;
+        padding: 8px 0;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Línea verde redondeada debajo del link activo */
+    .cb-nav-link-activo::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 3.5px;
+        background-color: #00C897;
+        border-radius: 4px;
+    }
+
+    /* Separador vertical entre navegación y botones de usuario */
+    .cb-nav-divider {
+        width: 1px;
+        height: 24px;
+        background-color: #e5e7eb;
+        margin: 0 4px;
+    }
+
+    /* Enlace "Iniciar sesión" */
+    .cb-nav-login {
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        color: #374151;
+        padding: 8px 12px;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .cb-nav-login:hover {
+        color: #00C897;
+    }
+
+    /* Botón "Regístrate" (Estilo Píldora / Pill button) */
+    .cb-nav-register {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 42px;
-        height: 42px;
-        background: #f0fdf9;
-        border: 2px solid #00C897;
-        border-radius: 8px;
-        font-size: 20px;
-        cursor: pointer;
+        background-color: #00C897;
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 14px;
         text-decoration: none;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        padding: 8px 24px;
+        border-radius: 9999px; /* Forma de píldora completa */
+        box-shadow: 0 2px 6px rgba(0, 200, 151, 0.2);
+        transition: all 0.2s ease;
+        white-space: nowrap;
     }
-    .nav-carrito:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 16px rgba(0, 200, 151, 0.3);
+
+    .cb-nav-register:hover {
+        background-color: #00b386;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 200, 151, 0.35);
     }
-    /* 🔴 Contador flotante de productos (Badge numérico) */
+
+    /* Botón e Ícono de Carrito */
+    .cb-nav-cart-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        margin-left: 6px;
+        color: #1f2937;
+        transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .cb-nav-cart-btn:hover {
+        transform: scale(1.08);
+        color: #00C897;
+    }
+
+    /* Badge rojo con el contador de productos */
     .badge-carrito {
         position: absolute;
-        top: -8px;
-        right: -8px;
-        background: #ff4757;
+        top: -2px;
+        right: -3px;
+        background-color: #ef4444; /* Rojo llamativo */
         color: #ffffff;
         font-size: 11px;
-        font-weight: 800;
-        min-width: 20px;
-        height: 20px;
-        border-radius: 50%;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 9999px;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0 4px;
-        box-shadow: 0 2px 6px rgba(255, 71, 87, 0.4);
+        box-shadow: 0 2px 5px rgba(239, 68, 68, 0.35);
         transition: transform 0.2s ease;
+        line-height: 1;
     }
-    /* Animación de rebote al añadir un producto */
+
+    /* Efecto de animación cuando se añade un producto */
     .animar-pop {
-        transform: scale(1.3) !important;
+        transform: scale(1.25) !important;
     }
 </style>
 
-<nav style="background: white; box-shadow: 0 1px 10px rgba(0,0,0,0.08); width: 100%;">
+<nav style="background: #ffffff; border-bottom: 1px solid #f1f5f9; box-shadow: 0 1px 4px rgba(0,0,0,0.03); width: 100%;">
     <div style="
         max-width: 1280px;
         width: 100%;
         margin: 0 auto;
-        padding: 0 32px;
+        padding: 0 28px;
         height: 70px;
-        display: grid;
-        grid-template-columns: auto 1fr auto;
+        display: flex;
         align-items: center;
-        gap: 24px;
+        justify-content: space-between;
+        gap: 20px;
         box-sizing: border-box;
     ">
 
-        {{-- COLUMNA 1: LOGO (izquierda) --}}
-        <a href="/" style="display: flex; align-items: center; gap: 1px; text-decoration: none; white-space: nowrap;">
-            <img src="{{ asset('images/Icono.png') }}" alt="Icono" style="width: 46px; height: 46px;">
-            <span style="font-weight: 700; color: #1a1a2e; font-size: 18px;">
-                Central <strong style="color: #00C897;">box</strong>
+        {{-- ========================================== --}}
+        {{-- COLUMNA 1: LOGOTIPO (Identidad de marca)   --}}
+        {{-- ========================================== --}}
+        <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap;">
+            <img src="{{ asset('images/Icono.png') }}" alt="Central Box" style="height: 38px; width: auto; object-fit: contain;">
+            <span style="font-weight: 800; color: #1e293b; font-size: 21px; letter-spacing: -0.4px;">
+                Central <span style="color: #00C897;">box</span>
             </span>
         </a>
 
-        {{-- COLUMNA 2: LINKS DE NAVEGACIÓN (centro) --}}
+        {{-- ========================================== --}}
+        {{-- COLUMNA 2: ENLACES DEL MENÚ PÚBLICO        --}}
+        {{-- ========================================== --}}
         <ul style="
             display: flex;
+            align-items: center;
+            gap: 32px;
             list-style: none;
             margin: 0;
             padding: 0;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
         ">
-            <li><a href="/" class="nav-link-activo">🏠Inicio</a></li>
-            <li><a href="#productos" class="nav-link">🛒Productos</a></li>
-            <li><a href="#categorias" class="nav-link">📋Categorías</a></li>
-            <li><a href="#promociones" class="nav-link">🏷️Promociones</a></li>
-            <li><a href="#nosotros" class="nav-link">👨‍💼Nosotros</a></li>
+            <li>
+                <a href="/" class="cb-nav-link-activo">Inicio</a>
+            </li>
+            <li>
+                <a href="#productos" class="cb-nav-link">Productos</a>
+            </li>
+            <li>
+                <a href="#categorias" class="cb-nav-link">Categorías</a>
+            </li>
+            <li>
+                <a href="#promociones" class="cb-nav-link">Promociones</a>
+            </li>
+            <li>
+                <a href="#nosotros" class="cb-nav-link">Nosotros</a>
+            </li>
         </ul>
 
-        {{-- COLUMNA 3: BOTONES (derecha) --}}
-        <div style="display: flex; align-items: center; gap: 12px; white-space: nowrap;">
+        {{-- ========================================== --}}
+        {{-- COLUMNA 3: ACCIONES DE AUTENTICACIÓN Y CARRO --}}
+        {{-- ========================================== --}}
+        <div style="display: flex; align-items: center; gap: 14px; white-space: nowrap;">
 
+            {{-- Separador vertical sutil --}}
+            <div class="cb-nav-divider"></div>
+
+            {{-- Enlace Iniciar sesión --}}
             @if (Route::has('login'))
-                <a href="{{ route('login') }}"
-                   style="padding: 6px 18px; border: 2px solid #00C897; color: #00C897;
-                          border-radius: 15px; text-decoration: none; font-weight: 600;
-                          font-size: 14px; white-space: nowrap;">
-                    ➡️Iniciar sesión
+                <a href="{{ route('login') }}" class="cb-nav-login">
+                    Iniciar sesión
                 </a>
             @endif
 
+            {{-- Botón Registrarse --}}
             @if (Route::has('register'))
-                <a href="{{ route('register') }}"
-                   style="padding: 8px 18px; background: #00C897; color: white;
-                          border-radius: 15px; text-decoration: none; font-weight: 600;
-                          font-size: 14px; white-space: nowrap;">
-                    👤Regístrate
+                <a href="{{ route('register') }}" class="cb-nav-register">
+                    Regístrate
                 </a>
             @endif
 
-            {{-- 🛒 ÍCONO DEL CARRITO --}}
-            <button type="button" id="btn-carrito-nav" class="nav-carrito"
-                    onclick="toggleModalCarrito()" title="Ver mi Carrito de Compras">
-                🛒
+            {{-- Botón e Ícono de Carrito con SVG estilizado --}}
+            <button type="button" 
+                    id="btn-carrito-nav" 
+                    class="cb-nav-cart-btn"
+                    onclick="toggleModalCarrito()" 
+                    title="Ver mi Carrito de Compras"
+                    aria-label="Ver mi Carrito de Compras">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
                 <span id="contador-carrito" class="badge-carrito">0</span>
             </button>
 
